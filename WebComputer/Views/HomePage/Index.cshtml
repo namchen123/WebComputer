@@ -1,0 +1,94 @@
+﻿@{
+    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+}
+@model IEnumerable<Product>
+<div id="mainContainer" class="mt-2">
+    <div id="sidebar" class="row d-flex justify-content-center">
+        <div id="sidebarItem" class="col-3">
+            <a asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=1 class="item"><p>Laptop</p></a>
+            <a class="item"><p>Linh kiện máy tính</p></a>
+            <a class="item"><p>Bàn phím, chuột, tai nghe</p></a>
+            <a class="item"><p>Phụ kiện máy tính</p></a>
+            <a class="item"><p>Máy tính cá nhân</p></a>
+            <a class="item"><p>Xây dựng cấu hình máy tính</p></a>
+            <a class="item"><p>Khuyến mãi</p></a>
+            <a class="item"><p>Bảo hành</p></a>
+        </div>
+        <div id="mainContent" class="col-6">
+            <div id="carouselExample" class="carousel slide">
+                <div class="carousel-inner rounded">
+                    <div class="carousel-item active">
+                        <a href="#">
+                            <img class ="rounded" src="~/images/ps5.png"
+                                 style="width: 670px; height: 280px"
+                                 alt="" />
+                        </a>
+                    </div>
+                    <div class="carousel-item">
+                        <a href="#">
+                            <img src="~/images/quangcaoasus.png"
+                                 style="width: 670px; height: 280px"
+                                 alt="" />
+                        </a>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-3" style="padding: 0;">
+            <div>
+                <a href="#">
+                    <img src="~/images/quangcao2.png"
+                         style="width: 330px; height: 280px"
+                         alt="" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="bodyContent" class="mt-5">
+        <div id="productContent">
+            <div class="d-flex justify-content-between">
+                <h3>Laptop</h3>
+                <a class="linkProduct" href="#">
+                    <div class="linkButton">Xem tất cả</div>
+                </a>
+            </div>
+            <div class="productItems" style="position: relative;">
+                @foreach(var i in Model)
+                {
+                    <div class="item">
+                        <a href="#">
+                            <img src="@i.Image1" width="210px" height="190px" alt="" />
+                        </a>
+                        <div class="detail">
+                            <p>
+                                @i.Name
+                            </p>
+                        </div>
+                        <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                        <div class="state mb-2">
+                            <div class="d-flex justify-content-between">
+                                <p>Còn hàng</p>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                    <button style="width: 50px; background-color: red">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+            
+        </div>
+    </div>

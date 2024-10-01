@@ -1,0 +1,291 @@
+body {
+    font-family: Roboto, sans-serif;
+}
+#headerbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background-color: red;
+    border-bottom: 1px solid gray;
+}
+#nav-bar {
+    background-color: white;
+    border-bottom: 1px solid gray;
+}
+
+#bar {
+    margin: auto;
+    width: 90%;
+    height: 90px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shoplogo {
+    width: 50px;
+    height: 50px;
+}
+
+.headerlink {
+    text-decoration: none;
+}
+
+.headerlink-container {
+    color: gray;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.headerlink-container p {
+    margin: 5px;
+}
+
+#searchbar {
+    display: flex;
+    height: 30px;
+    border: gray;
+}
+
+#searchbar input {
+    border:1px solid red;
+    height: 100%;
+    width: 250px;
+    border-radius: 10px 0 0 10px;
+}
+
+#searchbar input:focus {
+    border:1px solid red;
+    height: 100%;
+    width: 250px;
+    border-radius: 10px 0 0 10px;
+}
+
+#searchbar button {
+    background-color: red;
+    border: gray;
+    height: 100%;
+    border-radius: 0 10px 10px 0;
+}
+
+#cart {
+    height: 85px;
+    display: flex;
+    align-items: center;
+}
+
+#login {
+    height: 85px;
+    display: flex;
+    align-items: center;
+}
+
+#cart:hover {
+    background-color: aqua;
+    border-radius: 10px;
+    border: white;
+}
+
+#login:hover {
+    background-color: white;
+    border-radius: 10px;
+    border: white;
+}
+
+#sidebar {
+    width: 90%;
+    margin: auto;
+}
+
+#sidebarItem {
+    padding: 0;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
+#sidebarItem .item {
+    display: flex;
+    height: 35px;
+    align-items: center;
+    border-bottom: 0.5px solid gray;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
+}
+#sidebarItem .item:last-child {
+    border-bottom: none;
+}
+
+#sidebarItem .item:hover {
+    background-color: aliceblue;
+}
+
+#sidebarItem .item:first-child:hover {
+    background-color: aliceblue;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#sidebarItem .item:last-child:hover {
+    background-color: aliceblue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.menuContent {
+    display: none;
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+}
+
+#sidebarItem .item:hover .menuContent{
+    display: flex;
+}
+
+#sidebarItem .item p{
+    margin-left: 2%;
+    margin-bottom: 0;
+}
+
+#mainContent{
+    
+}
+
+#bodyContent {
+    width: 90%;
+    margin: auto;
+}
+
+.productItems {
+    display: flex;
+    justify-content: space-between;
+    transform: translateX(0);
+    row-gap: 10px;
+}
+
+.productItems .item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    border: none;
+    border-radius: 5px;
+    max-width: 260px;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15);
+}
+
+.productItems .item * {
+    width: 90%;
+    margin: auto;
+}
+.productItems.animate {
+    animation: scroll-banner 10s linear infinite;
+}
+
+.reverse {
+    border: none;
+    background: none;
+    position: absolute; top: 45%;
+}
+
+.next {
+    border: none;
+    background: none;
+    position: absolute;
+    top: 45%;
+    right: 0;
+}   
+
+
+
+.next i {
+    font-size: 40px;
+}
+
+.reverse i{
+    font-size: 40px;
+}
+
+
+.linkProduct {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.linkButton {
+    color: white;
+    background-color: orange;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+#emailForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(14, 113, 113);
+}
+
+#form {
+    display: flex;
+}
+
+#emailForm p {
+    font-size: 30px;
+}
+
+#form input {
+    border: none;
+    width: 300px;
+    height: 30px;
+}
+
+#form button {
+    width: 100px;
+    border: none;
+    background-color: red;
+}
+
+#footerDetail {
+    width: 90%;
+    margin: auto;
+}
+
+.Contact span {
+    font-weight: bold;
+}
+
+#mainbody{
+    width: 90%;
+    margin: auto;
+}
+
+#mainbody .banner img{
+    width: 100%;
+}
+
+#brand {
+    flex-wrap: wrap;
+}
+
+#brand a{
+    display: flex;
+    justify-content: center;
+    border: gray solid 1px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+.productDetails {
+    width: 90%;
+    margin: auto;
+}
+
