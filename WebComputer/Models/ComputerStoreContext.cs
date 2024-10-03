@@ -193,7 +193,7 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
-                entity.Property(e => e.Description).HasColumnType("text");
+                entity.Property(e => e.Description).HasMaxLength(255);
 
                 entity.Property(e => e.Image1).HasMaxLength(255);
 

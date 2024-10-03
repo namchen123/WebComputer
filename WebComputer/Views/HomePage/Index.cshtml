@@ -56,12 +56,12 @@
         <div id="productContent">
             <div class="d-flex justify-content-between">
                 <h3>Laptop</h3>
-                <a class="linkProduct" href="#">
+                <a class="linkProduct" asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=1>
                     <div class="linkButton">Xem tất cả</div>
                 </a>
             </div>
             <div class="productItems" style="position: relative;">
-                @foreach(var i in Model)
+                @foreach(var i in ViewBag.laptop)
                 {
                     <div class="item">
                         <a href="#">
@@ -90,5 +90,43 @@
             </div>
 
             
+        </div>
+        <div id="productContent" class="mt-5">
+            <div class="d-flex justify-content-between flex-wrap">
+                <h3>Console, Tay cầm chơi game</h3>
+                <a class="linkProduct" asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=17 asp-route-categoryId2=16>
+                    <div class="linkButton">Xem tất cả</div>
+                </a>
+            </div>
+            <div class="productItems" style="position: relative;">
+                @foreach (var i in ViewBag.console)
+                {
+                    <div class="item">
+                        <a href="#">
+                            <img src="@i.Image1" width="210px" height="190px" alt="" />
+                        </a>
+                        <div class="detail">
+                            <p>
+                                @i.Name
+                            </p>
+                        </div>
+                        <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                        <div class="state mb-2">
+                            <div class="d-flex justify-content-between">
+                                <p>Còn hàng</p>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                    <button style="width: 50px; background-color: red">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+
         </div>
     </div>
