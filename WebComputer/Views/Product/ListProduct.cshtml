@@ -37,14 +37,16 @@
     <div class="mt-2">
         <h4>Chọn theo tiêu chí</h4>
         <div>
-            <button><i class="fa-solid fa-money-bill"></i> Giá</button>
-            <button><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</button>
-            <button><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</button>
-            <button>Hãng sản xuất</button>
+            <a class="btn"><i class="fa-solid fa-money-bill"></i> Giá</a>
+            <div class="btn-group">
+                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
+                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
+            </div>
+            <a class="btn">Hãng sản xuất</a>
         </div>
     </div>
     <div class="mt-2">
-        <div class="productItems flex-wrap" style="position: relative;">
+        <div class="productItems flex-wrap" style="">
             @foreach(var i in Model)
             {
                 <div class="item">

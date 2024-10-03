@@ -22,20 +22,19 @@ namespace WebComputer.Controllers
             return View(specification);
         }
 
-        [Route("Product/ListProduct/{categoryId}")]
-        public IActionResult ListProduct(int? categoryId, string? categoryName)
+        public IActionResult ListProduct(int categoryId)
         {
             var product =_storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p=>p.CategoryName).FirstOrDefault();
             ViewBag.categoryname = categoryname;
+            ViewBag.categoryId = categoryId;
             return View(product);
         }
 
-        [Route("Product/ListProduct/{categoryId}/{categoryId2}")]
-        public IActionResult ListProduct(int categoryId, int categoryId2)
+        public IActionResult ListProduct2(int categoryId, int categoryId2)
         {
-            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
-            var product2 = _storeContext.Products.Where(p => p.CategoryId == categoryId2).ToList();
+            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
+            var product2 = _storeContext.Products.Where(p => p.CategoryId == categoryId2).Take(5);
             ViewBag.product = product;
             ViewBag.product2 = product2;
 
@@ -55,6 +54,25 @@ namespace WebComputer.Controllers
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname = categoryname;
+            return View(product);
+        }
+        public IActionResult ListProductByPrice(int categoryId, String description)
+        {
+            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
+            if (description.Equals("desc"))
+            {
+                product = product.OrderByDescending(p=>p.Price).ToList();
+                var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
+                ViewBag.categoryname = categoryname;
+                ViewBag.categoryId = categoryId;
+            }
+            if (description.Equals("asc"))
+            {
+                product = product.OrderBy(p=>p.Price).ToList();
+                var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
+                ViewBag.categoryname = categoryname;
+                ViewBag.categoryId = categoryId;
+            }
             return View(product);
         }
     }

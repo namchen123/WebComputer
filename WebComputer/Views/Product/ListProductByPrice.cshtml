@@ -30,51 +30,24 @@
         </div>
     </div>
 
-    <div class="banner mt-5 mb-5">
+    <div class="banner mt-5">
         <img src="~/images/category/@(ViewBag.categoryname).png" alt="">
     </div>
 
     <div class="mt-2">
-        <div class="productItems flex-wrap" style="position: relative;">
-            @foreach (var i in ViewBag.product)
-            {
-                <div class="item">
-                    <a href="#">
-                        <img src="@i.Image1" height="190px" alt="" />
-                    </a>
-                    <div class="detail">
-                        <p>
-                            @i.Name
-                        </p>
-                    </div>
-                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
-                    <div class="state mb-2">
-                        <div class="d-flex">
-                            <p>Còn hàng</p>
-                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
-                                <button style="width: 50px; background-color: red">
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                </button>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            }
-
-
+        <h4>Chọn theo tiêu chí</h4>
+        <div>
+            <a class="btn"><i class="fa-solid fa-money-bill"></i> Giá</a>
+            <div class="btn-group">
+                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
+                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
+            </div>
+            <a class="btn">Hãng sản xuất</a>
         </div>
-        <a class="d-flex justify-content-center mt-3 text-decoration-none" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid">
-            <button class="btn btn-primary">Xem thêm sản phẩm</button>
-        </a>
     </div>
-
-    <div class="banner mt-5 mb-5">
-        <img src="~/images/category/@(ViewBag.categoryname2).png" alt="">
-    </div>
-
     <div class="mt-2">
-        <div class="productItems flex-wrap" style="position: relative">
-            @foreach (var i in ViewBag.product2)
+        <div class="productItems flex-wrap" style="">
+            @foreach (var i in Model)
             {
                 <div class="item">
                     <a href="#">
@@ -101,10 +74,9 @@
 
 
         </div>
-        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid2">
-            <button class="btn btn-primary">Xem thêm sản phẩm</button>
-        </a>
     </div>
-    
+    <div class="d-flex justify-content-center mt-3">
+        <button class="btn btn-primary">Xem thêm sản phẩm</button>
+    </div>
 </div>
 

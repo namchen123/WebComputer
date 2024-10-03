@@ -12,8 +12,8 @@ namespace WebComputer.Controllers
         }
         public IActionResult Index()
         {
-            var laptop = _storeContext.Products.Where(p=>p.CategoryId==1).ToList();
-            var console = _storeContext.Products.Where(p => p.CategoryId == 17 || p.CategoryId == 16).ToList();
+            var laptop = _storeContext.Products.Where(p=>p.CategoryId==1).Take(5);
+            var console = _storeContext.Products.Where(p => p.CategoryId == 17 || p.CategoryId == 16).Take(5);
             ViewBag.laptop = laptop;
             ViewBag.console = console;
             return View(laptop);
