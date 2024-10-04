@@ -28,12 +28,27 @@
                 </a>
             </div>
             <div id="login">
-                <a class="headerlink" href="#">
-                    <div class="headerlink-container">
-                        <i class="fa-regular fa-user"></i>
-                        <p>Đăng nhập</p>
-                    </div>
-                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (User.IsInRole("KH"))
+                    {
+                        <a class="headerlink" href="">Xin chào @User.Identity.Name</a>
+                        <a class="headerlink" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                    }
+                    else
+                    {
+
+
+                    }
+                } else
+                {
+                    <a class="headerlink" asp-controller="Account" asp-action="Login">
+                        <div class="headerlink-container">
+                            <i class="fa-regular fa-user"></i>
+                            <p>Đăng nhập</p>
+                        </div>
+                    </a>
+                }
             </div>
         </div>
     </div>

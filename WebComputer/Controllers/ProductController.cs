@@ -24,7 +24,7 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProduct(int categoryId)
         {
-            var product =_storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
+            var product =_storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p=>p.CategoryName).FirstOrDefault();
             ViewBag.categoryname = categoryname;
             ViewBag.categoryId = categoryId;
@@ -74,6 +74,12 @@ namespace WebComputer.Controllers
                 ViewBag.categoryId = categoryId;
             }
             return View(product);
+        }
+
+        public IActionResult GetMoreProduct(int pagenumber, int categoryId)
+        {
+            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Skip((pagenumber - 1)*5).Take(5);
+            return PartialView("MoreProduct",product);
         }
     }
 }
