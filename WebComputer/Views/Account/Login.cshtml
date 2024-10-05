@@ -3,6 +3,12 @@
 }
 @model LoginViewModel
 
+    @if(TempData["Message"] != null ) {
+        <script>
+            alert('@TempData["Message"]');
+        </script>
+    }
+
 <form asp-action="Login" method="post" class="w-25 m-auto d-flex flex-column p-2 shadow rounded border-1">
     <div class="form-group">
         <label asp-for="Username"></label>
@@ -16,7 +22,7 @@
     </div>
     <button type="submit" class="btn btn-primary mt-2">Login</button>
     <div class="d-flex justify-content-end mt-2">
-        <a href="#">Chưa có tài khoản, đăng kí ngay</a>
+        <a asp-action="Register">Chưa có tài khoản, đăng kí ngay</a>
     </div>
 </form>
 

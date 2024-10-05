@@ -32,8 +32,8 @@
                 {
                     if (User.IsInRole("KH"))
                     {
-                        <a class="headerlink" href="">Xin chào @User.Identity.Name</a>
-                        <a class="headerlink" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
+                        <a class="headerlink btn btn-primary" asp-controller="Account" asp-action="CustomerDetail">Xin chào @User.Identity.Name</a>
+                        <a class="headerlink btn btn-outline-secondary" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
                     }
                     else
                     {
