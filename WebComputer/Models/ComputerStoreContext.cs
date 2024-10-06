@@ -144,6 +144,8 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
+                entity.Property(e => e.Adress).HasMaxLength(255);
+
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
                 entity.Property(e => e.OrderDate)
@@ -201,9 +203,7 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.Image3).HasMaxLength(255);
 
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.Name).HasMaxLength(255);
 
                 entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
 
@@ -240,19 +240,17 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.SpecificationId).HasColumnName("SpecificationID");
 
-                entity.Property(e => e.SpecificationValue)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.SpecificationValue).HasMaxLength(255);
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductSpecifications)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__ProductSp__Produ__44FF419A");
+                    .HasConstraintName("FK__ProductSp__Produ__6EF57B66");
 
                 entity.HasOne(d => d.Specification)
                     .WithMany(p => p.ProductSpecifications)
                     .HasForeignKey(d => d.SpecificationId)
-                    .HasConstraintName("FK__ProductSp__Speci__45F365D3");
+                    .HasConstraintName("FK__ProductSp__Speci__6FE99F9F");
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -288,9 +286,7 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.SpecificationId).HasColumnName("SpecificationID");
 
-                entity.Property(e => e.SpecificationName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.SpecificationName).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Supplier>(entity =>

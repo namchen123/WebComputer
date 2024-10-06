@@ -1,6 +1,13 @@
 ﻿@{
     Layout = "~/Views/Shared/ComputerLayout.cshtml";
 }
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
 @model IEnumerable<Product>
 <div id="mainContainer" class="mt-2">
     <div id="sidebar" class="row d-flex justify-content-center">

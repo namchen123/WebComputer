@@ -1,0 +1,65 @@
+﻿@{
+    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+}
+@model IEnumerable<CartItem>
+<div class="" style="max-width: 90%; margin: auto">
+    <h4>Giỏ hàng</h4>
+    <div class="row">
+        <div class="col-8">
+            <div class="container">
+                <div class="header cart-item d-flex justify-content-between">
+                    <div class="flex-grow-1">Sản phẩm</div>
+                    <div class="flex-grow-1 text-center">Đơn giá</div>
+                    <div class="flex-grow-1 text-center">Thành tiền</div>
+                    <div class="flex-grow-1 text-center">Xóa</div>
+                </div>
+                @if(Model== null)
+                {
+                    
+                }else{
+                    @foreach(var c in Model)
+                    {
+                        <div class="body-cart-item d-flex justify-content-between mt-3 border-bottom">
+                            <div class="d-flex flex-grow-1 align-items-center" style="max-width: 260px;">
+                                <img src="@c.Product.Image1" style="width: 100px;" alt="">
+                                <span class="ml-2">@c.Product.Name</span>
+                            </div>
+                            <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
+                            <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
+                            <a class="flex-grow-1 text-center align-self-center"><i class="fa-regular fa-trash-can"></i></a>
+                        </div>
+                    }
+                }
+
+
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="d-flex flex-column">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Mã giảm giá">
+                    <button class="btn btn-primary" type="button">Áp dụng</button>
+                </div>
+                <div class="mt-2 border-bottom">
+                    <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
+                        <p>Tạm tính</p>
+                        <p>0 đ</p>
+                    </div>
+                </div>
+                <div class="mt-2 border-bottom">
+                    <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
+                        <p>Giảm giá</p>
+                        <p>0 đ</p>
+                    </div>
+                </div>
+                <div class="mt-2 border-bottom">
+                    <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
+                        <p>Thành tiền</p>
+                        <p>0 đ</p>
+                    </div>
+                </div>
+                <a class="btn btn-primary" href="">Tiến hành đặt hàng</a>
+            </div>
+        </div>
+    </div>
+</div>
