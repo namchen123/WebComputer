@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebComputer.Models;
 
 namespace WebComputer.Controllers
@@ -12,10 +13,17 @@ namespace WebComputer.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.cartitemcount = 0;
+            if(User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c=>c.Carts).SelectMany(d=>d.CartItems).Count();
+            }
             var laptop = _storeContext.Products.Where(p=>p.CategoryId==1).Take(5);
             var console = _storeContext.Products.Where(p => p.CategoryId == 17 || p.CategoryId == 16).Take(5);
             ViewBag.laptop = laptop;
             ViewBag.console = console;
+            
             return View(laptop);
         }
     }

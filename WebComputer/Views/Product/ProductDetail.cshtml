@@ -2,6 +2,12 @@
     Layout = "~/Views/Shared/ComputerLayout.cshtml";
 }
 @model IEnumerable<ProductSpecification>
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
 <div class="productDetails mt-5 border-0 shadow">
     @foreach(var i in ViewBag.product)
     {
@@ -60,8 +66,8 @@
                     </div>
                 </div>
                 <div class="col mt-2 d-flex justify-content-between">
-                    <button class="btn btn-primary" style="width: 71%;">Mua ngay</button>
-                    <button class="btn btn-outline-success" style="width: 105px;"><i class="fa-solid fa-cart-shopping"></i> <p class="m-0" style="font-size: small;">Thêm vào giỏ</p></button>
+                    <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width: 71%;"><p class="m-0">Mua ngay</p></a>
+                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productId=@i.ProductId class="btn btn-outline-success" style="width: 105px;"><i class="fa-solid fa-cart-shopping"></i> <p class="m-0" style="font-size: small;">Thêm vào giỏ</p></a>
                 </div>
                 <div class="col mt-2 mb-2">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-list-check"></i> Thông số kĩ thuật</button>

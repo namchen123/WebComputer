@@ -1,4 +1,5 @@
-﻿<header id="header">
+﻿@using System.Security.Claims
+<header id="header">
     <div id="headerbar">HelloPC xin chào !</div>
     <div id="nav-bar">
         <div id="bar">
@@ -19,8 +20,16 @@
             </div>
             <div id="cart">
                 <a class="headerlink position-relative" href="#">
-                    <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill"
-                          style="color: gray">0</span>
+                    @if (ViewBag.cartitemcount != null)
+                    {
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill"
+                        style="color: gray">@ViewBag.cartitemcount</span>
+                    }
+                    else
+                    {
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill"
+                              style="color: gray">0</span>
+                    }                   
                     <div class="headerlink-container">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <p>Xem giỏ hàng</p>
@@ -32,7 +41,7 @@
                 {
                     if (User.IsInRole("KH"))
                     {
-                        <a class="headerlink btn btn-primary" asp-controller="Account" asp-action="CustomerDetail">Xin chào @User.Identity.Name</a>
+                        <a class="headerlink btn btn-primary" asp-controller="Account" asp-action="CustomerDetail" asp-route-name="@User.Identity.Name">Xin chào @User.Identity.Name</a>
                         <a class="headerlink btn btn-outline-secondary" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
                     }
                     else

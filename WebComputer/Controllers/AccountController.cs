@@ -84,24 +84,36 @@ namespace WebComputer.Controllers
             newAccount.PasswordHash = model.Password;
             newAccount.CreatedDate = DateTime.UtcNow;
             newAccount.Role = "KH";
-            _storeContext.Accounts.AddAsync(newAccount);
-            _storeContext.SaveChangesAsync();
+            _storeContext.Accounts.Add(newAccount);
+            _storeContext.SaveChanges();
+
+            Customer customer = new Customer { AccountId = newAccount.AccountId , FirstName="N/A" , LastName="N/A", Address="N/A"};
+
+            _storeContext.Customers.Add(customer);
+            _storeContext.SaveChanges();
+
+            Cart cart = new Cart { CustomerId = customer.CustomerId};
+
+            _storeContext.Carts.Add(cart);
+            _storeContext.SaveChanges();
+
             TempData["Message"] = "Create account success";
             return RedirectToAction("Login","Account");
         }
 
-        public IActionResult CustomerDetail()
+        public IActionResult CustomerDetail(String name)
         {
-            var customer = _storeContext.Customers.SingleOrDefault(p=>p.Account.Email.Equals(User.Identity.Name));
+            var customer = _storeContext.Customers.SingleOrDefault(p=>p.Account.Email==name);
             return View(customer);
         }
         [HttpPost]
         public IActionResult CustomerDetail(Customer customer)
-        {
+        {        
             
-                customer.AccountId = _storeContext.Accounts.SingleOrDefault(p => p.Email.Equals(User.Identity.Name)).AccountId;
-                _storeContext.Customers.Add(customer);
-                _storeContext.SaveChanges();
+            customer.AccountId = _storeContext.Accounts.SingleOrDefault(p => p.Email.Equals(User.Identity.Name)).AccountId;
+            _storeContext.Customers.Update(customer);
+            _storeContext.SaveChanges();
+            int customerid = _storeContext.Customers.SingleOrDefault(p => p.AccountId == customer.AccountId).CustomerId;
             return View(customer);
         }
     }

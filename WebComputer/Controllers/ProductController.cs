@@ -81,5 +81,6 @@ namespace WebComputer.Controllers
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Skip((pagenumber - 1)*5).Take(5);
             return PartialView("MoreProduct",product);
         }
+
     }
 }
