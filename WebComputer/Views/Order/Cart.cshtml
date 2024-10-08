@@ -15,7 +15,7 @@
                 </div>
                 @if(Model== null)
                 {
-                    
+                    <p>Giỏ hàng rỗng</p>
                 }else{
                     @foreach(var c in Model)
                     {
@@ -26,7 +26,7 @@
                             </div>
                             <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
                             <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
-                            <a class="flex-grow-1 text-center align-self-center"><i class="fa-regular fa-trash-can"></i></a>
+                            <a asp-action="DeleteCart" asp-route-cartid=@c.CartId asp-route-cartitemid=@c.CartItemId  class="flex-grow-1 text-center align-self-center"><i class="fa-regular fa-trash-can"></i></a>
                         </div>
                     }
                 }
@@ -43,7 +43,7 @@
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Tạm tính</p>
-                        <p>0 đ</p>
+                        <p>@ViewBag.tonggia.ToString("N0") đ</p>
                     </div>
                 </div>
                 <div class="mt-2 border-bottom">
@@ -55,10 +55,10 @@
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Thành tiền</p>
-                        <p>0 đ</p>
+                        <p>@ViewBag.tonggia.ToString("N0") đ</p>
                     </div>
                 </div>
-                <a class="btn btn-primary" href="">Tiến hành đặt hàng</a>
+                <a class="btn btn-primary" asp-action="OrderCheck">Tiến hành đặt hàng</a>
             </div>
         </div>
     </div>

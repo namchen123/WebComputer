@@ -148,9 +148,13 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.CustomerId).HasColumnName("CustomerID");
 
+                entity.Property(e => e.Email).HasMaxLength(50);
+
                 entity.Property(e => e.OrderDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Phone).HasMaxLength(50);
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)

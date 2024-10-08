@@ -20,16 +20,8 @@
             </div>
             <div id="cart">
                 <a class="headerlink position-relative" href="#">
-                    @if (ViewBag.cartitemcount != null)
-                    {
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill"
-                        style="color: gray">@ViewBag.cartitemcount</span>
-                    }
-                    else
-                    {
-                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill"
-                              style="color: gray">0</span>
-                    }                   
+                        style="color: gray">@ViewBag.cartitemcount</span>                                 
                     <a asp-controller="Order" asp-action="Cart" asp-route-itemcount=@ViewBag.cartitemcount class="headerlink-container text-decoration-none">
                         <i class="fa-solid fa-cart-shopping"></i>
                         <p>Xem giỏ hàng</p>

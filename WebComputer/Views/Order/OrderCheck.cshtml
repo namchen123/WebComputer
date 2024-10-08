@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+}
+@model OrderViewModel
+<div class="" style="max-width: 90%; margin: auto">
+    <h4>Giỏ hàng</h4>
+    <div class="row">
+        <div class="col-8">
+            <div class="container">
+                <form id="formorder" asp-action="CreateOrder" method="post" class="form-control">
+                    <label asp-for="Name" class="form-label">Họ và tên</label>
+                    <input asp-for="Name" type="text" class="form-control" value="@ViewBag.Name">
+                    <label asp-for="Adress" class="form-label">Địa chỉ</label>
+                    <input asp-for="Adress" type="text" class="form-control" value="@ViewBag.Adress">
+                    <label asp-for="Phone" class="form-label">Số điện thoại</label>
+                    <input asp-for=Phone type="text" class="form-control" value="@ViewBag.Phone">
+                    <label asp-for="Email" class="form-label">Email</label>
+                    <input asp-for=Email type="text" class="form-control">
+                </form>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="d-flex flex-column">
+                <div class="mt-2 border-bottom">
+                    <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
+                        <p>Thành tiền</p>
+                        <p>@ViewBag.tonggia.ToString("N0") đ</p>
+                    </div>
+                </div>
+                <a href="#" onclick="document.getElementById('formorder').submit(); return false;" class="btn btn-primary">Đặt hàng</a>
+            </div>
+        </div>
+    </div>
+</div>
+
