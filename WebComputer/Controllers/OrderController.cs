@@ -95,6 +95,8 @@ namespace WebComputer.Controllers
             var cart = _storecontext.Carts.SingleOrDefault(c => c.CustomerId == customer.CustomerId);
             var cartItem = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Include(p => p.Product).ToList();
             
+            decimal totalamount = 0;
+
             foreach (var item in cartItem)
             {
                 OrderDetail detail = new OrderDetail
@@ -104,16 +106,29 @@ namespace WebComputer.Controllers
                     Quantity = item.Quantity,
                     UnitPrice = item.Product.Price
                 };
-                order.TotalAmount += detail.UnitPrice;
+                totalamount += detail.UnitPrice * detail.Quantity;
                 _storecontext.OrderDetails.Add(detail);
             }
+            order.TotalAmount = totalamount;
             _storecontext.Orders.Update(order);
             _storecontext.SaveChanges();
 
             _storecontext.CartItems.RemoveRange(cartItem);
             _storecontext.SaveChanges();
+            TempData["Message"] = "Order success";
+            return RedirectToAction("Index", "HomePage");
+        }
 
-            return View();
+        public IActionResult OrderDetail()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                TempData["Message"] = "You need to sign in to check order history";
+                return RedirectToAction("Index", "HomePage");
+            }
+            var customer = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
+            var order = _storecontext.Orders.Where(p => p.CustomerId == customer.CustomerId).Include(p=>p.OrderDetails).ThenInclude(p=>p.Product);
+            return View(order);
         }
     }
 }
