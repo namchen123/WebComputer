@@ -15,7 +15,7 @@
             <a asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=1 class="item"><p>Laptop</p></a>
             <a class="item"><p>Linh kiện máy tính</p></a>
             <a class="item"><p>Bàn phím, chuột, tai nghe</p></a>
-            <a class="item"><p>Phụ kiện máy tính</p></a>
+            <a class="item"><p>Máy chơi game</p></a>
             <a class="item"><p>Máy tính cá nhân</p></a>
             <a class="item"><p>Xây dựng cấu hình máy tính</p></a>
             <a class="item"><p>Khuyến mãi</p></a>
@@ -98,6 +98,7 @@
 
             
         </div>
+
         <div id="productContent" class="mt-5">
             <div class="d-flex justify-content-between flex-wrap">
                 <h3>Console, Tay cầm chơi game</h3>
@@ -136,4 +137,83 @@
 
 
         </div>
+
+        <div id="productContent" class="mt-5">
+            <div class="d-flex justify-content-between flex-wrap">
+                <h3>Bàn phím</h3>
+                <a class="linkProduct" asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=13>
+                    <div class="linkButton">Xem tất cả</div>
+                </a>
+            </div>
+            <div class="productItems" style="position: relative;">
+                @foreach (var i in ViewBag.keyboard)
+                {
+                    <div class="item">
+                        <a href="#">
+                            <img src="@i.Image1" width="210px" height="190px" alt="" />
+                        </a>
+                        <div class="detail">
+                            <p>
+                                @i.Name
+                            </p>
+                        </div>
+                        <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                        <div class="state mb-2">
+                            <div class="d-flex justify-content-between">
+                                <p>Còn hàng</p>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                    <button style="width: 50px; background-color: red">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+
+        <div id="productContent" class="mt-5">
+            <div class="d-flex justify-content-between flex-wrap">
+                <h3>Chuột</h3>
+                <a class="linkProduct" asp-controller="Product" asp-action="ListProduct" asp-route-categoryId=12>
+                    <div class="linkButton">Xem tất cả</div>
+                </a>
+            </div>
+            <div class="productItems" style="position: relative;">
+                @foreach (var i in ViewBag.mouse)
+                {
+                    <div class="item">
+                        <a href="#">
+                            <img src="@i.Image1" width="210px" height="190px" alt="" />
+                        </a>
+                        <div class="detail">
+                            <p>
+                                @i.Name
+                            </p>
+                        </div>
+                        <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                        <div class="state mb-2">
+                            <div class="d-flex justify-content-between">
+                                <p>Còn hàng</p>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                    <button style="width: 50px; background-color: red">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+
     </div>
