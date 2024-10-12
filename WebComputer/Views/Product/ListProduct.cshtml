@@ -5,6 +5,7 @@
 <div id="mainbody" class="mt-3 row">
 
     <div class="banner mt-5">
+        <h2>@ViewBag.categoryname</h2>
         <img src="~/images/category/@(ViewBag.categoryname).png" alt="">
     </div>
 
@@ -12,11 +13,18 @@
         <h4>Chọn theo tiêu chí</h4>
         <div>
             <a class="btn"><i class="fa-solid fa-money-bill"></i> Giá</a>
-            <div class="btn-group">
-                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
-                <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
+            <div>
+                <div class="btn-group">
+                    <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
+                    <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
+                </div>
+                <select class="form-select d-inline w-25" aria-label="Default select example">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
             </div>
-            <a class="btn">Hãng sản xuất</a>
         </div>
     </div>
     <div class="mt-2">

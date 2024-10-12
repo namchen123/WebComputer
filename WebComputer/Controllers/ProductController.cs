@@ -47,13 +47,31 @@ namespace WebComputer.Controllers
             ViewBag.categoryid = categoryid;
             var categoryid2 = _storeContext.Categories.Where(p => p.CategoryId == categoryId2).Select(p => p.CategoryId).FirstOrDefault();
             ViewBag.categoryid2 = categoryid2;
-            return View("ListProduct2");
+            return View();
         }
         public IActionResult ListProduct3(int categoryId, int categoryId2, int categoryId3)
         {
-            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
+            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
+            var product2 = _storeContext.Products.Where(p => p.CategoryId == categoryId2).Take(5);
+            var product3 = _storeContext.Products.Where(p => p.CategoryId == categoryId3).Take(5);
+            ViewBag.product = product;
+            ViewBag.product2 = product2;
+            ViewBag.product3 = product3;
+
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname = categoryname;
+            var categoryname2 = _storeContext.Categories.Where(p => p.CategoryId == categoryId2).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname2 = categoryname2;
+            var categoryname3 = _storeContext.Categories.Where(p => p.CategoryId == categoryId3).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname3 = categoryname3;
+
+            var categoryid = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryId).FirstOrDefault();
+            ViewBag.categoryid = categoryid;
+            var categoryid2 = _storeContext.Categories.Where(p => p.CategoryId == categoryId2).Select(p => p.CategoryId).FirstOrDefault();
+            ViewBag.categoryid2 = categoryid2;
+            var categoryid3 = _storeContext.Categories.Where(p => p.CategoryId == categoryId3).Select(p => p.CategoryId).FirstOrDefault();
+            ViewBag.categoryid3 = categoryid3;
+
             return View(product);
         }
         public IActionResult ListProductByPrice(int categoryId, String description)

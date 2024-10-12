@@ -21,13 +21,11 @@ namespace WebComputer.Controllers
             }
             var laptop = _storeContext.Products.Where(p=>p.CategoryId==1).Take(5);
             var console = _storeContext.Products.Where(p => p.CategoryId == 17 || p.CategoryId == 16).OrderBy(p => Guid.NewGuid()).Take(5);
-            var keyboard = _storeContext.Products.Where(p=> p.CategoryId == 13).Take(5);
-            var mouse = _storeContext.Products.Where(p=>p.CategoryId == 12).Take(5);
+            var keyboardmouse = _storeContext.Products.Where(p=> p.CategoryId == 13 || p.CategoryId == 12).OrderBy(p => Guid.NewGuid()).Take(5);
 
             ViewBag.laptop = laptop;
             ViewBag.console = console;
-            ViewBag.keyboard = keyboard;
-            ViewBag.mouse = mouse;
+            ViewBag.keyboardmouse = keyboardmouse;
 
             return View(laptop);
         }
