@@ -6,11 +6,11 @@
     <div class="mt-2">
         <h4 class="mb-2">Hãng sản xuất</h4>
         <div id="brand" class="d-flex mt-2">
-            <a class="d-flex text-decoration-none justify-content-center align-items-center flex-column" href="" style="width: 134px; height: 140px">
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
                 <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname).jpg" alt="">
                 <p style="text-align: center">@ViewBag.categoryname</p>
             </a>
-            <a class="d-flex text-decoration-none justify-content-center align-items-center flex-column" href="" style="width: 134px; height: 140px">
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid2" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
                 <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname2).jpg" alt="">
                 <p style="text-align: center">@ViewBag.categoryname2</p>
             </a>

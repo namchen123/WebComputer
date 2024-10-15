@@ -1,0 +1,361 @@
+﻿@{
+    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+}
+
+@model IEnumerable<Product>
+<div id="mainbody" class="mt-3 row">
+    <div class="mt-2">
+        <h4>Hãng sản xuất</h4>
+        <div id="brand" class="d-flex">
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid2" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname2).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname2</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid3" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname3).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname3</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid4" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname4).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname4</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid5" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname5).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname5</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid6" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname6).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname6</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid7" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname7).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname7</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid8" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname8).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname8</p>
+            </a>
+            <a asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid9" class="d-flex text-decoration-none justify-content-center align-items-center flex-column" style="width: 134px; height: 140px">
+                <img style="height: 100px; width: 100px" src="~/images/category2/@(ViewBag.categoryname9).jpg" alt="">
+                <p style="text-align: center">@ViewBag.categoryname9</p>
+            </a>
+        </div>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname</h2>
+        <img src="~/images/category/@(ViewBag.categoryname).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative;">
+            @foreach (var i in ViewBag.product)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3 text-decoration-none" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname2</h2>
+        <img src="~/images/category/@(ViewBag.categoryname2).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product2)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid2">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname4</h2>
+        <img src="~/images/category/@(ViewBag.categoryname3).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product4)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid4">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname5</h2>
+        <img src="~/images/category/@(ViewBag.categoryname5).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product5)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid5">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname6</h2>
+        <img src="~/images/category/@(ViewBag.categoryname6).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product6)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid6">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname7</h2>
+        <img src="~/images/category/@(ViewBag.categoryname7).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product7)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid7">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname8</h2>
+        <img src="~/images/category/@(ViewBag.categoryname8).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product8)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid8">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+    <div class="banner mt-5 mb-5">
+        <h2>@ViewBag.categoryname9</h2>
+        <img src="~/images/category/@(ViewBag.categoryname9).png" alt="">
+    </div>
+
+    <div class="mt-2">
+        <div class="productItems flex-wrap" style="position: relative">
+            @foreach (var i in ViewBag.product9)
+            {
+                <div class="item">
+                    <a href="#">
+                        <img src="@i.Image1" height="190px" alt="" />
+                    </a>
+                    <div class="detail">
+                        <p>
+                            @i.Name
+                        </p>
+                    </div>
+                    <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                    <div class="state mb-2">
+                        <div class="d-flex">
+                            <p>Còn hàng</p>
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                <button style="width: 50px; background-color: red">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <a class="d-flex justify-content-center mt-3" asp-action="ListProduct" asp-route-categoryId="@ViewBag.categoryid9">
+            <button class="btn btn-primary">Xem thêm sản phẩm</button>
+        </a>
+    </div>
+
+</div>
