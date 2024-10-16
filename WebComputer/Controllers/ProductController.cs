@@ -103,7 +103,7 @@ namespace WebComputer.Controllers
             var categoryname3 = _storeContext.Categories.Where(p => p.CategoryId == 4).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname3 = categoryname3;
             var categoryname4 = _storeContext.Categories.Where(p => p.CategoryId == 5).Select(p => p.CategoryName).FirstOrDefault();
-            ViewBag.categoryname4 = categoryname3;
+            ViewBag.categoryname4 = categoryname4;
             var categoryname5 = _storeContext.Categories.Where(p => p.CategoryId == 6).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname5 = categoryname5;
             var categoryname6 = _storeContext.Categories.Where(p => p.CategoryId == 7).Select(p => p.CategoryName).FirstOrDefault();
