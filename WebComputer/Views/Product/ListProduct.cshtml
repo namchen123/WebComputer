@@ -28,7 +28,7 @@
         </div>
     </div>
     <div class="mt-2">
-        <div class="productItems flex-wrap" style="">
+        <div class="productItems flex-wrap" style="position: relative;">
             @foreach(var i in Model)
             {
                 <div class="item">
@@ -63,11 +63,12 @@
     <script>
         let pagenumber = 1;
         const categoryId = @ViewBag.categoryId
+        const orderby = @((ViewBag.orderby == null) ? "`noorder`" : $"'{ViewBag.orderby}'");
         $('#AddButton').click(function (e) {
             pagenumber++;
             $.ajax({
                 url: "GetMoreProduct",
-                data: { pagenumber: pagenumber, categoryId: categoryId },
+                data: { pagenumber: pagenumber, categoryId: categoryId, orderby: orderby},
                 success: function (respone) {
                     $("div.productItems").append(respone);
                 }

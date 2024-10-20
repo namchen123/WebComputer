@@ -146,6 +146,7 @@ namespace WebComputer.Controllers
                 var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
                 ViewBag.categoryname = categoryname;
                 ViewBag.categoryId = categoryId;
+                ViewBag.orderby = "desc";
             }
             if (description.Equals("asc"))
             {
@@ -153,13 +154,26 @@ namespace WebComputer.Controllers
                 var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
                 ViewBag.categoryname = categoryname;
                 ViewBag.categoryId = categoryId;
+                ViewBag.orderby = "asc";
             }
             return View(product);
         }
 
-        public IActionResult GetMoreProduct(int pagenumber, int categoryId)
+        public IActionResult GetMoreProduct(int pagenumber, int categoryId, string orderby)
         {
-            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Skip((pagenumber - 1)*5).Take(5);
+            var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
+            if (orderby.Equals("desc"))
+            {
+                product = product.OrderByDescending(p => p.Price).Skip((pagenumber - 1) * 5).Take(5).ToList();
+            }
+            if (orderby.Equals("asc"))
+            {
+                product = product.OrderBy(p => p.Price).Skip((pagenumber - 1) * 5).Take(5).ToList();
+            }
+            if (orderby.Equals("noorder"))
+            {
+                product = product.Skip((pagenumber - 1) * 5).Take(5).ToList();
+            }
             return PartialView("MoreProduct",product);
         }
 

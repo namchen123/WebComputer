@@ -165,10 +165,18 @@ body {
 
 .productItems {
     display: flex;
+    gap: 8.5px;
+    transform: translateX(0);
+    row-gap: 10px;
+}
+
+#bodyContent .productItems {
+    display: flex;
     justify-content: space-between;
     transform: translateX(0);
     row-gap: 10px;
 }
+
 
 .productItems .item {
     display: flex;
@@ -183,9 +191,6 @@ body {
 .productItems .item * {
     width: 90%;
     margin: auto;
-}
-.productItems.animate {
-    animation: scroll-banner 10s linear infinite;
 }
 
 .reverse {

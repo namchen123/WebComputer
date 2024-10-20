@@ -108,6 +108,10 @@ namespace WebComputer.Controllers
                 };
                 totalamount += detail.UnitPrice * detail.Quantity;
                 _storecontext.OrderDetails.Add(detail);
+
+                var product = _storecontext.Products.SingleOrDefault(p => p.ProductId == item.ProductId);
+                product.StockQuantity -= item.Quantity;
+                _storecontext.Products.Update(product);
             }
             order.TotalAmount = totalamount;
             _storecontext.Orders.Update(order);
