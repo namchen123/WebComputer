@@ -2,8 +2,8 @@
     Layout = "~/Views/Shared/ComputerLayout.cshtml";
 }
 
-<div class="table" style="width: 90%; margin: auto;">
-    <table class="table table-striped-columns border">
+<div class="table mt-5" style="width: 90%; margin: auto;">
+    <table id="build-table" class="table table-striped-columns border">
         <tr>
             <td class="">Chọn @ViewBag.categoryname</td>
             <td class="@ViewBag.categoryname"><button value=@ViewBag.categoryid class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname</button></td>
@@ -42,8 +42,15 @@
         </tr>
     </table>
 
-    <div id="totalPrice">
-        <h4>Tổng giá trị cấu hình: <span>100</span></h4>
+    <table id="totalPrice" class="bg-danger table w-25 table-striped-columns table-danger">
+        <tr>
+            <td>Chi phí dự tính:</td>
+            <td class="total">0 đ</td>
+        </tr>
+    </table>
+    <div class="d-flex w-25" style="gap: 10px">
+        <button id="saveImage" class="btn btn-primary">Lưu ảnh</button>
+        <button id="saveExcel" class="btn btn-primary">Lưu Excel</button>
     </div>
     <div id="option" class="modal" tabindex="-1">
         <div class="modal-dialog">
@@ -143,7 +150,22 @@
             $('table .item-price').toArray().forEach(function (item) {
                 total += parseFloat($(item).text()); // Sử dụng $(item) để lấy giá trị
             });
-            $('#totalPrice h4 span').html(total.toLocaleString('vi-VN') + "đ");
+            $('#totalPrice tr .total').html(total.toLocaleString('vi-VN') + "đ");
         }
+
+        $("#saveImage").click(function () {
+            html2canvas($("#build-table")[0]).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'table.png'; // Tên file ảnh
+                link.href = canvas.toDataURL("image/png");
+                link.click();
+            });
+        });
+
+        // Xuất bảng ra file Excel
+        $("#saveExcel").click(function () {
+            var wb = XLSX.utils.table_to_book($("#build-table")[0], { sheet: "Sheet1" });
+            XLSX.writeFile(wb, 'table.xlsx'); // Tên file Excel
+        });
     });
 </script>
