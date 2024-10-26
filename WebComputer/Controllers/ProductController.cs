@@ -176,6 +176,45 @@ namespace WebComputer.Controllers
             }
             return PartialView("MoreProduct",product);
         }
+        [HttpGet]
+        public IActionResult FindProduct(String name)
+        {
+            var product = _storeContext.Products.Where(p=>p.Name.Contains(name)).ToList();
+            ViewBag.name = name;
+            return View(product);
+        }
 
+        public IActionResult BuildPC()
+        {
+            var categoryname = _storeContext.Categories.Where(p => p.CategoryId == 2).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname = categoryname;
+            var categoryname2 = _storeContext.Categories.Where(p => p.CategoryId == 3).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname2 = categoryname2;
+            var categoryname3 = _storeContext.Categories.Where(p => p.CategoryId == 4).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname3 = categoryname3;
+            var categoryname4 = _storeContext.Categories.Where(p => p.CategoryId == 5).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname4 = categoryname4;
+            var categoryname5 = _storeContext.Categories.Where(p => p.CategoryId == 6).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname5 = categoryname5;
+            var categoryname6 = _storeContext.Categories.Where(p => p.CategoryId == 7).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname6 = categoryname6;
+            var categoryname7 = _storeContext.Categories.Where(p => p.CategoryId == 8).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname7 = categoryname7;
+            var categoryname8 = _storeContext.Categories.Where(p => p.CategoryId == 9).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname8 = categoryname8;
+            var categoryname9 = _storeContext.Categories.Where(p => p.CategoryId == 10).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname9 = categoryname9;
+
+            ViewBag.categoryid = 2;
+            ViewBag.categoryid2 = 3;
+            ViewBag.categoryid3 = 4;
+            ViewBag.categoryid4 = 5;
+            ViewBag.categoryid5 = 6;
+            ViewBag.categoryid6 = 7;
+            ViewBag.categoryid7 = 8;
+            ViewBag.categoryid8 = 9;
+            ViewBag.categoryid9 = 10;
+            return View();
+        }
     }
 }

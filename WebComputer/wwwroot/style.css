@@ -58,7 +58,7 @@ body {
 }
 
 #searchbar input:focus {
-    border:1px solid red;
+    outline: none;
     height: 100%;
     width: 250px;
     border-radius: 10px 0 0 10px;
@@ -294,4 +294,8 @@ body {
 .productDetails {
     width: 90%;
     margin: auto;
+}
+
+.hidden {
+    display: none !important;
 }

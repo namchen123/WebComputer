@@ -1,0 +1,149 @@
+﻿@{
+    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+}
+
+<div class="table" style="width: 90%; margin: auto;">
+    <table class="table table-striped-columns border">
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname</td>
+            <td class="@ViewBag.categoryname"><button value=@ViewBag.categoryid class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname2</td>
+            <td class="@ViewBag.categoryname2"><button value=@ViewBag.categoryid2 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname2</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname3</td>
+            <td class="@ViewBag.categoryname3"><button value=@ViewBag.categoryid3 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname3</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname4</td>
+            <td class="@ViewBag.categoryname4"><button value=@ViewBag.categoryid4 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname4</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname5</td>
+            <td class="@ViewBag.categoryname5"><button value=@ViewBag.categoryid5 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname5</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname6</td>
+            <td class="@ViewBag.categoryname6"><button value=@ViewBag.categoryid6 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname6</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname7</td>
+            <td class="@ViewBag.categoryname7"><button value=@ViewBag.categoryid7 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname7</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname8</td>
+            <td class="@ViewBag.categoryname8"><button value=@ViewBag.categoryid8 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname8</button></td>
+        </tr>
+        <tr>
+            <td class="">Chọn @ViewBag.categoryname9</td>
+            <td class="@ViewBag.categoryname9"><button value=@ViewBag.categoryid9 class="btn btn-primary choose" data-bs-toggle="modal" data-bs-target="#option">+Chọn @ViewBag.categoryname9</button></td>
+        </tr>
+    </table>
+
+    <div id="totalPrice">
+        <h4>Tổng giá trị cấu hình: <span>100</span></h4>
+    </div>
+    <div id="option" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var data2;
+        var currentTd;
+        var button;
+        var total;
+        function renderOptions() {
+            $(".modal-body").empty();
+            if (data2) {
+                data2.forEach(function (item) {
+                    $(".modal-body").append(`
+                        <div class="body-cart-item d-flex justify-content-between mt-3 border-bottom">
+                            <div class="d-flex flex-grow-1 align-items-center" style="max-width: 260px;">
+                                <img src="${item.image1}" style="width: 100px;" alt="">
+                                <span class="ml-2">${item.name}</span>
+                            </div>
+                            <div class="flex-grow-1 text-center align-self-center">${item.price} đ</div>
+                            <button type="button" class="btn btn-primary choose-product" data-id=${item.productId}>Chọn</button>
+                        </div>
+                    `);
+
+                });
+            }
+        }
+       
+        $(document).on("click", ".choose", function () {
+            button = $(this);
+            currentTd = $(this).closest('td');
+            var categoryId = $(this).val();
+            $.ajax({
+                url: '/api/ProductApi/' + categoryId,
+                method: 'GET',
+                success: function (data) {
+                    console.log("Sản phẩm theo ID:", data);
+                    data2 = data;
+                    renderOptions();
+                },
+                error: function (err) {
+                    console.error("Lỗi khi gọi API:", err);
+                }
+            });
+
+
+        });
+
+        $(document).on("click", ".choose-product", function () {
+            var productId = $(this).data('id');
+            var tdElement = currentTd;
+            button.addClass('hidden');
+            data2.forEach(function (item) {
+                if (item.productId === productId) {
+                    tdElement.append(`
+                    <div class="body-cart-item d-flex justify-content-between mt-3">
+                        <div class="d-flex flex-grow-1 align-items-center g-2" style="max-width: 280px; gap: 15px">
+                            <img src="${item.image1}" style="width: 100px;" alt="">
+                            <span class="ml-2">${item.name}</span>
+                        </div>
+                        <div class="item-price flex-grow-1 text-center align-self-center">${item.price} đ</div>
+                        <button class="btn-delete text-danger border-0"><i class="fa-regular fa-trash-can"></i></button>
+                    </div>`);
+                }
+            })
+            $("#option").modal('hide');
+            // Bạn có thể thêm logic xử lý sau khi chọn sản phẩm tại đây
+            calculateTotal();
+        });
+
+        $(document).on("click", ".btn-delete", function () {
+            var tdElement = $(this).closest('td');
+            tdElement.find('button').removeClass('hidden');
+            $(this).closest('.body-cart-item').remove();
+            calculateTotal();
+        });
+
+        function calculateTotal() {
+            let total = 0; // Khai báo biến total và khởi tạo giá trị
+            $('table .item-price').toArray().forEach(function (item) {
+                total += parseFloat($(item).text()); // Sử dụng $(item) để lấy giá trị
+            });
+            $('#totalPrice h4 span').html(total.toLocaleString('vi-VN') + "đ");
+        }
+    });
+</script>
