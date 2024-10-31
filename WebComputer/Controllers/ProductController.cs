@@ -204,6 +204,14 @@ namespace WebComputer.Controllers
             ViewBag.categoryname8 = categoryname8;
             var categoryname9 = _storeContext.Categories.Where(p => p.CategoryId == 10).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname9 = categoryname9;
+            var categoryname10 = _storeContext.Categories.Where(p => p.CategoryId == 11).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname10 = categoryname10;
+            var categoryname11 = _storeContext.Categories.Where(p => p.CategoryId == 12).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname11 = categoryname11;
+            var categoryname12 = _storeContext.Categories.Where(p => p.CategoryId == 13).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname12 = categoryname12;
+            var categoryname13 = _storeContext.Categories.Where(p => p.CategoryId == 14).Select(p => p.CategoryName).FirstOrDefault();
+            ViewBag.categoryname13 = categoryname13;
 
             ViewBag.categoryid = 2;
             ViewBag.categoryid2 = 3;
@@ -214,6 +222,10 @@ namespace WebComputer.Controllers
             ViewBag.categoryid7 = 8;
             ViewBag.categoryid8 = 9;
             ViewBag.categoryid9 = 10;
+            ViewBag.categoryid10 = 11;
+            ViewBag.categoryid11 = 12;
+            ViewBag.categoryid12 = 13;
+            ViewBag.categoryid13 = 14;
             return View();
         }
     }

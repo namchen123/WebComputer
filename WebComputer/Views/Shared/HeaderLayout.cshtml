@@ -3,9 +3,9 @@
     <div id="headerbar">HelloPC xin chào !</div>
     <div id="nav-bar">
         <div id="bar">
-            <div id="shoplogo">
+            <a asp-controller="HomePage" asp-action="Index" id="shoplogo">
                 <img class="shoplogo" src="~/images/logo.png" alt="" />
-            </div>
+            </a>
             <form asp-action="FindProduct" asp-controller="Product" id="searchbar" method="get">
                 <input name="Name" type="text" placeholder="Nhập sản phẩm cần tìm" />
                 <button type="submit">

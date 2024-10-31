@@ -21,8 +21,8 @@ namespace WebComputer.Controllers
             var product = _storeContext.Products.Include(p=>p.CartItems).ToList();
             return Ok(product);
         }
-        [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        [HttpGet("GetById")]
+        public IActionResult GetById([FromQuery] int id)
         {
             var product = _storeContext.Products.Include(p => p.CartItems).Where(p=>p.CategoryId==id).ToList();
             return Ok(product);
