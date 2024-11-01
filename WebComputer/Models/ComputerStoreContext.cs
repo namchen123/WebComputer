@@ -107,9 +107,7 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.CategoryId).HasColumnName("CategoryID");
 
-                entity.Property(e => e.CategoryName)
-                    .HasMaxLength(100)
-                    .IsUnicode(false);
+                entity.Property(e => e.CategoryName).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -220,11 +218,11 @@ namespace WebComputer.Models
                     .WithMany(p => p.Products)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProductSupplier",
-                        l => l.HasOne<Supplier>().WithMany().HasForeignKey("SupplierId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductSu__Suppl__4BAC3F29"),
-                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductSu__Produ__4AB81AF0"),
+                        l => l.HasOne<Supplier>().WithMany().HasForeignKey("SupplierId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductSu__Suppl__03F0984C"),
+                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductSu__Produ__02FC7413"),
                         j =>
                         {
-                            j.HasKey("ProductId", "SupplierId").HasName("PK__ProductS__E0B2A08432CDBAB3");
+                            j.HasKey("ProductId", "SupplierId").HasName("PK__ProductS__E0B2A084BDBCBA75");
 
                             j.ToTable("ProductSupplier");
 

@@ -1,0 +1,81 @@
+﻿<section>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <a asp-action="SanPhamManagement">Quản lý sản phẩm</a>
+        <a asp-action="KhachHangManagement">Quản lý khách hàng</a>
+    </div>
+    <div class="content">
+        @RenderBody()
+    </div>
+</section>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+        width: 200px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #333;
+        padding: 20px;
+        box-sizing: border-box;
+        color: white;
+    }
+
+        .sidebar a {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+            .sidebar a:hover {
+                background-color: #444;
+            }
+
+    .content {
+        margin-left: 220px;
+        padding: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .form-group .text-danger {
+            color: red;
+        }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+</style>

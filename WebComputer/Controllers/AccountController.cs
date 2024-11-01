@@ -103,7 +103,7 @@ namespace WebComputer.Controllers
 
         public IActionResult CustomerDetail(String name)
         {
-            var customer = _storeContext.Customers.SingleOrDefault(p=>p.Account.Email==name);
+            var customer = _storeContext.Customers.FirstOrDefault(p=>p.Account.Email==name);
             return View(customer);
         }
         [HttpPost]
@@ -115,6 +115,32 @@ namespace WebComputer.Controllers
             _storeContext.SaveChanges();
             int customerid = _storeContext.Customers.SingleOrDefault(p => p.AccountId == customer.AccountId).CustomerId;
             return View(customer);
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            var account = _storeContext.Accounts.SingleOrDefault(p => p.Email.Equals(User.Identity.Name));
+            if (model.oldPassword != account.PasswordHash)
+            {
+                TempData["Message"] = "Password incorrect!";
+                return View();
+            }
+            if (model.newPassword != model.confirmNewPassword)
+            {
+                TempData["Message"] = "Incorrect re-enter password!";
+                return View();
+            }
+            account.PasswordHash = model.newPassword;
+            _storeContext.Update(account);
+            _storeContext.SaveChanges();
+            TempData["Message"] = "Change password success!";
+            return RedirectToAction("Index","HomePage");
         }
     }
     

@@ -15,10 +15,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ProductDetail(int productId)
         {
-            var product = _storeContext.Products.Where(x => x.ProductId == productId).ToList();
+            var product = _storeContext.Products.SingleOrDefault(x => x.ProductId == productId);
+            var relativeproduct = _storeContext.Products.Where(p => p.CategoryId == product.CategoryId).ToList();
             var specification = _storeContext.ProductSpecifications.Where(p=>p.ProductId == productId).Include(p=>p.Specification);
             ViewBag.specification = specification.Take(4);
             ViewBag.product = product;
+            ViewBag.relativeproduct = relativeproduct.Take(5);
             return View(specification);
         }
 
@@ -26,6 +28,8 @@ namespace WebComputer.Controllers
         {
             var product =_storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p=>p.CategoryName).FirstOrDefault();
+            var supplier = _storeContext.Suppliers.Where(p=>p.Products.Any(p=>p.CategoryId==categoryId)).ToList();
+            ViewBag.supplier = supplier;
             ViewBag.categoryname = categoryname;
             ViewBag.categoryId = categoryId;
             return View(product);
@@ -159,6 +163,12 @@ namespace WebComputer.Controllers
             return View(product);
         }
 
+        public IActionResult ListProductBySupplier(int supplierId, int categoryId)
+        {
+            var product = _storeContext.Products.Where(p=>p.CategoryId==categoryId && p.Suppliers.Any(p=>p.SupplierId==supplierId)).ToList();
+            return PartialView("ListProductBySupplier",product);
+        }
+
         public IActionResult GetMoreProduct(int pagenumber, int categoryId, string orderby)
         {
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
@@ -179,7 +189,7 @@ namespace WebComputer.Controllers
         [HttpGet]
         public IActionResult FindProduct(String name)
         {
-            var product = _storeContext.Products.Where(p=>p.Name.Contains(name)).ToList();
+            var product = _storeContext.Products.Where(p=>p.Name.Contains(name) || p.Category.CategoryName.Contains(name)).ToList();
             ViewBag.name = name;
             return View(product);
         }

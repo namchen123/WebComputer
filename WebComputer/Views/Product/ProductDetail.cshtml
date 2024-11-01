@@ -9,30 +9,28 @@
     </script>
 }
 <div class="productDetails mt-5 border-0 shadow">
-    @foreach(var i in ViewBag.product)
-    {
         <div class="productCointainer row" style="width: 95%; margin: auto;">
             <div id="carouselExampleIndicators" class="containerLeft col-8 row carousel slide mt-2">
                 <div class="row d-flex flex-column col-4 gap-3">
                     <div class="mt-2 rounded">
-                        <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1" class="img-fluid border-0 shadow rounded" src="@i.Image1" alt="" style="cursor: pointer; width: 150px; height: 150px">
+                    <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" aria-current="true" aria-label="Slide 1" class="img-fluid border-0 shadow rounded" src="@ViewBag.product.Image1" alt="" style="cursor: pointer; width: 150px; height: 150px">
                     </div>
                     <div class="mt-2 rounded">
-                        <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="img-fluid border-0 shadow" src="@i.Image2" alt="" style="cursor: pointer; width: 150px; height: 150px">
+                    <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="img-fluid border-0 shadow" src="@ViewBag.product.Image2" alt="" style="cursor: pointer; width: 150px; height: 150px">
                     </div>
                     <div class="mt-2 rounded">
-                        <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class="img-fluid border-0 shadow" src="@i.Image3" alt="" style="cursor: pointer; width: 150px; height: 150px">
+                    <img data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3" class="img-fluid border-0 shadow" src="@ViewBag.product.Image3" alt="" style="cursor: pointer; width: 150px; height: 150px">
                     </div>
                 </div>
                 <div class="col-8 carousel-inner" style="width: 550px; height: 575px;">
                     <div class="carousel-item active">
-                        <img class="img-fluid" src="@i.Image1" alt="" style="width: 100%; height: auto;">
+                        <img class="img-fluid" src="@ViewBag.product.Image1" alt="" style="width: 100%; height: auto;">
                     </div>
                     <div class="carousel-item">
-                        <img class="img-fluid" src="@i.Image2" alt="" style="width: 100%; height: auto;">
+                        <img class="img-fluid" src="@ViewBag.product.Image2" alt="" style="width: 100%; height: auto;">
                     </div>
                     <div class="carousel-item">
-                        <img class="img-fluid" src="@i.Image3" alt="" style="width: 100%; height: auto;">
+                        <img class="img-fluid" src="@ViewBag.product.Image3" alt="" style="width: 100%; height: auto;">
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
                         <i class="fa-solid fa-angle-left" style="color: red; font-size: 40px;"></i>
@@ -46,12 +44,12 @@
             </div>
         
                 <div class="col-4">
-                <h4 class="col">@i.Name</h4>
+                <h4 class="col">@ViewBag.product.Name</h4>
                 <div class="border rounded p-2 col bg-secondary-subtle shadow">
                     <h5>Thông số sản phẩm</h5>
-                    @if (i.Description != null)
+                    @if (ViewBag.product.Description != null)
                     {
-                        <p>- @i.Description</p>
+                        <p>- @ViewBag.product.Description</p>
                     }
                     @foreach(var p in ViewBag.specification)
                     {
@@ -59,7 +57,7 @@
                     }
                 </div>
                 <div class="col mt-2">
-                    <p class="fs-4">Giá: <span class="fw-bold">@i.Price.ToString("N0") đ</span></p>
+                    <p class="fs-4">Giá: <span class="fw-bold">@ViewBag.product.Price.ToString("N0") đ</span></p>
                     <div class="d-flex flex-wrap">
                         <div class="bg-warning-subtle" style="margin-right: 0.5rem;"><p>Giá đã bao gồm VAT</p></div>
                         <div class="bg-warning-subtle"><p>Bảo hành: 12 tháng</p></div>
@@ -67,7 +65,7 @@
                 </div>
                 <div class="col mt-2 d-flex justify-content-between">
                     <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width: 71%;"><p class="m-0">Mua ngay</p></a>
-                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productId=@i.ProductId class="btn btn-outline-success" style="width: 105px;"><i class="fa-solid fa-cart-shopping"></i> <p class="m-0" style="font-size: small;">Thêm vào giỏ</p></a>
+                    <a asp-controller="Order" asp-action="AddToCart" asp-route-productId=@ViewBag.product.ProductId class="btn btn-outline-success" style="width: 105px;"><i class="fa-solid fa-cart-shopping"></i> <p class="m-0" style="font-size: small;">Thêm vào giỏ</p></a>
                 </div>
                 <div class="col mt-2 mb-2">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-list-check"></i> Thông số kĩ thuật</button>
@@ -103,114 +101,33 @@
             </div>
         
         </div>
-    }
 </div>
 <div class="relativeProducts mt-5" style="width: 90%; margin: auto;">
     <h4>Sản phẩm tương tự</h4>
-    <div class="productItems" style="position: relative;">
-        <button class="reverse"><i class="fa-solid fa-angle-left"></i></button>
-        <div class="item">
-            <a href="#">
-                <img src="~/images/surface.png" height="190px" alt="" />
-            </a>
-            <div class="detail">
-                <p>
-                    Microsoft Surface Surface Pro 9 (i5 1235U/8GB RAM/256GB
-                    SSD/13/Win11/Graphite)
-                </p>
-            </div>
-            <div class="price"><p>27.799.000đ</p></div>
-            <div class="state mb-2">
-                <div class="d-flex">
-                    <p>Còn hàng</p>
-                    <button style="width: 50px; background-color: red">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
+    <div class="productItems">
+        @foreach(var i in ViewBag.relativeproduct)
+        {
+            <div class="item">
+                <a href="#">
+                    <img src="@i.Image1" height="190px" alt="" />
+                </a>
+                <div class="detail">
+                    <p>
+                        @i.Name
+                    </p>
+                </div>
+                <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                <div class="state mb-2">
+                    <div class="d-flex">
+                        <p>Còn hàng</p>
+                        <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                            <button style="width: 50px; background-color: red; border:none">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </button>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="item">
-            <a href="#">
-                <img src="~/images/surface.png" height="190px" alt="" />
-            </a>
-            <div class="detail">
-                <p>
-                    Microsoft Surface Surface Pro 9 (i5 1235U/8GB RAM/256GB
-                    SSD/13/Win11/Graphite)
-                </p>
-            </div>
-            <div class="price"><p>27.799.000đ</p></div>
-            <div class="state mb-2">
-                <div class="d-flex">
-                    <p>Còn hàng</p>
-                    <button style="width: 50px; background-color: red">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <a href="#">
-                <img src="~/images/surface.png" height="190px" alt="" />
-            </a>
-            <div class="detail">
-                <p>
-                    Microsoft Surface Surface Pro 9 (i5 1235U/8GB RAM/256GB
-                    SSD/13/Win11/Graphite)
-                </p>
-            </div>
-            <div class="price"><p>27.799.000đ</p></div>
-            <div class="state mb-2">
-                <div class="d-flex">
-                    <p>Còn hàng</p>
-                    <button style="width: 50px; background-color: red">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <a href="#">
-                <img src="~/images/surface.png" height="190px" alt="" />
-            </a>
-            <div class="detail">
-                <p>
-                    Microsoft Surface Surface Pro 9 (i5 1235U/8GB RAM/256GB
-                    SSD/13/Win11/Graphite)
-                </p>
-            </div>
-            <div class="price"><p>27.799.000đ</p></div>
-            <div class="state mb-2">
-                <div class="d-flex">
-                    <p>Còn hàng</p>
-                    <button style="width: 50px; background-color: red">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="item">
-            <a href="#">
-                <img src="~/images/surface.png" height="190px" alt="" />
-            </a>
-            <div class="detail">
-                <p>
-                    Microsoft Surface Surface Pro 9 (i5 1235U/8GB RAM/256GB
-                    SSD/13/Win11/Graphite)
-                </p>
-            </div>
-            <div class="price"><p>27.799.000đ</p></div>
-            <div class="state mb-2">
-                <div class="d-flex">
-                    <p>Còn hàng</p>
-                    <button style="width: 50px; background-color: red">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <button class="next"><i class="fa-solid fa-angle-right"></i></button>
-
+        }
     </div>
 </div>

@@ -11,7 +11,7 @@ namespace WebComputer.Models
         }
 
         public int CategoryId { get; set; }
-        public string CategoryName { get; set; } = null!;
+        public string? CategoryName { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

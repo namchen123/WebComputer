@@ -20,9 +20,10 @@
                 </div>
                 <select class="form-select d-inline w-25" aria-label="Default select example">
                     <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
+                    @foreach(var s in ViewBag.supplier)
+                    {
+                        <option value=@s.SupplierId>@s.SupplierName</option>
+                    }
                 </select>
             </div>
         </div>
@@ -74,5 +75,16 @@
                 }
             });
         });
+        $('.form-select').change(function() {
+            var selectedValue = $(this).val();
+            var catId = @ViewBag.categoryId;
+            $.ajax({
+                url: "ListProductBySupplier",
+                data: {supplierId: selectedValue, categoryId: catId},
+                success: function (respone) {
+                    $("div.productItems").html(respone);
+                }
+            })
+        })
     </script>
 </div>
