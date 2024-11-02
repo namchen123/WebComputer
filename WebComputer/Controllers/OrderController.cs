@@ -130,7 +130,7 @@ namespace WebComputer.Controllers
                 TempData["Message"] = "You need to sign in to check order history";
                 return RedirectToAction("Index", "HomePage");
             }
-            var customer = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
+            var customer = _storecontext.Customers.FirstOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
             var order = _storecontext.Orders.Where(p => p.CustomerId == customer.CustomerId).Include(p=>p.OrderDetails).ThenInclude(p=>p.Product);
             return View(order);
         }

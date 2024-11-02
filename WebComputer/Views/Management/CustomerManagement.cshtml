@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+@model IEnumerable<Customer>
+<div class="create-area">
+    <a asp-action="CreateProduct" class="btn btn-success">Thêm mới sản phẩm</a>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>Họ</th>
+        <th>Tên</th>
+        <th>Tên tài khoản</th>
+        <th>Mật khẩu</th>
+        <th>Số điện thoại</th>
+        <th>Địa chỉ</th>
+        <th>Phân quyền</th>
+        <th>Thao tác</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.Account.Email</td>
+            <td>@item.Account.PasswordHash</td>
+            <td>@item.Phone</td>
+            <td>@item.Address</td>
+            <td>@item.Account.Role</td>
+            <td class="d-flex flex-column g-2">
+                <a asp-action="AddSpecification" asp-route-productId="" class="btn btn-warning mb-2" style="width:150px">Sửa</a>
+                <a asp-action="DeleteSanPham" asp-route-masp="" class="btn btn-danger" style="width:150px">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
+<style>
+    .create-area {
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+</style>
