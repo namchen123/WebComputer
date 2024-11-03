@@ -2,9 +2,13 @@
     Layout = "~/Views/Shared/ManagementLayout.cshtml";
 }
 @model IEnumerable<Customer>
-<div class="create-area">
-    <a asp-action="CreateProduct" class="btn btn-success">Thêm mới sản phẩm</a>
-</div>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
 <table class="table table-striped">
     <tr>
         <th>Họ</th>
@@ -27,8 +31,8 @@
             <td>@item.Address</td>
             <td>@item.Account.Role</td>
             <td class="d-flex flex-column g-2">
-                <a asp-action="AddSpecification" asp-route-productId="" class="btn btn-warning mb-2" style="width:150px">Sửa</a>
-                <a asp-action="DeleteSanPham" asp-route-masp="" class="btn btn-danger" style="width:150px">Xóa</a>
+                <a asp-action="EditCustomer" asp-route-customerId=@item.CustomerId class="btn btn-warning mb-2" style="width:150px">Sửa</a>
+                <a asp-action="DeleteCustomer" asp-route-customerId=@item.CustomerId class="btn btn-danger" style="width:150px">Xóa</a>
             </td>
         </tr>
     }

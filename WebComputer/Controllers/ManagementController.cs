@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
 using WebComputer.Models;
 
@@ -101,6 +102,54 @@ namespace WebComputer.Controllers
             _storeContext.SaveChanges();
             TempData["Message"] = "Delete success!";
             return RedirectToAction("ProductManagement");
+        }
+
+        public IActionResult EditCustomer(int customerId)
+        {
+            var customer = _storeContext.Customers.Include(p=>p.Account).SingleOrDefault(p=>p.CustomerId==customerId);
+            return View(customer);
+        }
+
+        public IActionResult EditCusomerSuccess(Customer customer)
+        {
+
+            var existingCustomer = _storeContext.Customers
+            .Include(c => c.Account)
+            .SingleOrDefault(c => c.CustomerId == customer.CustomerId);
+
+            if (existingCustomer != null)
+            {
+                // Cập nhật các thuộc tính
+                existingCustomer.FirstName = customer.FirstName;
+                existingCustomer.LastName = customer.LastName;
+                existingCustomer.Phone = customer.Phone;
+                existingCustomer.Address = customer.Address;
+
+                // Cập nhật thuộc tính của Account
+                existingCustomer.Account.Email = customer.Account.Email;
+                existingCustomer.Account.PasswordHash = customer.Account.PasswordHash;
+                existingCustomer.Account.Role = customer.Account.Role;
+
+                // Lưu lại
+                _storeContext.SaveChanges();
+                TempData["Message"] = "Update success!";
+            }
+            return RedirectToAction("CustomerManagement");
+        }
+        public IActionResult DeleteCustomer(int customerId)
+        {
+            var customer = _storeContext.Customers.Include(p=>p.Account).SingleOrDefault(p=>p.CustomerId==customerId);
+            return View(customer);
+        }
+
+        public IActionResult DeleteCustomerSuccess(int CustomerId)
+        {
+            var customer = _storeContext.Customers.SingleOrDefault(p=>p.CustomerId==CustomerId);
+            var account = _storeContext.Accounts.SingleOrDefault(p => p.AccountId == customer.AccountId);
+            _storeContext.Remove(customer);
+            _storeContext.Remove(account);
+            _storeContext.SaveChanges();
+            return RedirectToAction("CustomerManagement");
         }
     }
 }
