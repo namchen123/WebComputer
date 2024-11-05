@@ -64,9 +64,16 @@
                     </div>
                 </div>
                 <div class="col mt-2 d-flex justify-content-between">
+                @if (ViewBag.product.StockQuantity > 0)
+                {
                     <a class="btn btn-primary d-flex justify-content-center align-items-center" style="width: 71%;"><p class="m-0">Mua ngay</p></a>
                     <a asp-controller="Order" asp-action="AddToCart" asp-route-productId=@ViewBag.product.ProductId class="btn btn-outline-success" style="width: 105px;"><i class="fa-solid fa-cart-shopping"></i> <p class="m-0" style="font-size: small;">Thêm vào giỏ</p></a>
-                </div>
+                }
+                else
+                {
+                    <p class="fs-3" style="color:red">Sản phẩm tạm hết hàng</p>
+                }
+            </div>
                 <div class="col mt-2 mb-2">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-list-check"></i> Thông số kĩ thuật</button>
                 </div>

@@ -33,7 +33,7 @@
             @foreach(var i in Model)
             {
                 <div class="item">
-                    <a href="#">
+                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId>
                         <img src="@i.Image1" height="190px" alt="" />
                     </a>
                     <div class="detail">
@@ -44,12 +44,18 @@
                     <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
                     <div class="state mb-2">
                         <div class="d-flex">
-                            <p>Còn hàng</p>
-                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
-                                <button style="width: 50px; background-color: red; border:none">
-                                    <i class="fa-solid fa-cart-shopping"></i>
-                                </button>
-                            </a>
+                            @if (i.StockQuantity > 0)
+                            {
+                                <p style="color: lime">Còn hàng</p>
+                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                    <button style="width: 50px; background-color: red; border:none">
+                                        <i class="fa-solid fa-cart-shopping"></i>
+                                    </button>
+                                </a>
+                            } else
+                            {
+                                <p style="color: red">Sản phẩm tạm hết hàng</p>
+                            }
                         </div>
                     </div>
                 </div>

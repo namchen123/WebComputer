@@ -151,5 +151,31 @@ namespace WebComputer.Controllers
             _storeContext.SaveChanges();
             return RedirectToAction("CustomerManagement");
         }
+
+        public IActionResult AdvertisementManagement()
+        {
+            var advertisement = _storeContext.Advertisements.Include(p=>p.Product).ToList();
+            return View(advertisement);
+        }
+
+        public IActionResult CreateAdvertisement()
+        {
+            var product = _storeContext.Products.Select(p => new { p.ProductId, p.Name });
+            ViewBag.product = new SelectList(product,"ProductId","Name");
+            return View();
+        }
+
+        public IActionResult CreateAdvertisementSuccess(Advertisement advertisement)
+        {
+            var existingadvertisement = _storeContext.Advertisements.SingleOrDefault(p=>p.ProductId ==advertisement.ProductId);
+            if(existingadvertisement != null)
+            {
+                TempData["Message"] = "Product already had ad";
+                return RedirectToAction("CreateAdvertisement");
+            }
+            _storeContext.Add(advertisement);
+            _storeContext.SaveChanges();
+            return RedirectToAction("AdvertisementManagement");
+        }
     }
 }

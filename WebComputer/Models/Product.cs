@@ -7,6 +7,7 @@ namespace WebComputer.Models
     {
         public Product()
         {
+            Advertisements = new HashSet<Advertisement>();
             CartItems = new HashSet<CartItem>();
             OrderDetails = new HashSet<OrderDetail>();
             ProductSpecifications = new HashSet<ProductSpecification>();
@@ -25,6 +26,7 @@ namespace WebComputer.Models
         public int? CategoryId { get; set; }
 
         public virtual Category? Category { get; set; }
+        public virtual ICollection<Advertisement> Advertisements { get; set; }
         public virtual ICollection<CartItem> CartItems { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<ProductSpecification> ProductSpecifications { get; set; }

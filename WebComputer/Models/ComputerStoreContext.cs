@@ -17,6 +17,7 @@ namespace WebComputer.Models
         }
 
         public virtual DbSet<Account> Accounts { get; set; } = null!;
+        public virtual DbSet<Advertisement> Advertisements { get; set; } = null!;
         public virtual DbSet<Cart> Carts { get; set; } = null!;
         public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
@@ -64,6 +65,23 @@ namespace WebComputer.Models
                 entity.Property(e => e.Role)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Advertisement>(entity =>
+            {
+                entity.Property(e => e.BannerImage).HasMaxLength(255);
+
+                entity.Property(e => e.Description).HasMaxLength(500);
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Title).HasMaxLength(100);
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.Advertisements)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Advertisements_Products");
             });
 
             modelBuilder.Entity<Cart>(entity =>

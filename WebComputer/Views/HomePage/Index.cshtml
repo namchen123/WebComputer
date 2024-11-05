@@ -8,7 +8,7 @@
         alert('@TempData["Message"]');
     </script>
 }
-@model IEnumerable<Product>
+@model IEnumerable<Advertisement>
 <div id="mainContainer" class="mt-2">
     <div id="sidebar" class="row d-flex justify-content-center">
         <div id="sidebarItem" class="col-3">
@@ -24,20 +24,18 @@
         <div id="mainContent" class="col-6">
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner rounded">
-                    <div class="carousel-item active">
-                        <a href="#">
-                            <img class ="rounded" src="~/images/ps5.png"
-                                 style="width: 670px; height: 280px"
-                                 alt="" />
-                        </a>
-                    </div>
-                    <div class="carousel-item">
-                        <a href="#">
-                            <img src="~/images/quangcaoasus.png"
-                                 style="width: 670px; height: 280px"
-                                 alt="" />
-                        </a>
-                    </div>
+                    @foreach(var ad in Model)
+                    {
+                        <div class="carousel-item @(Model.First() == ad ? "active" : "")">
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@ad.ProductId>
+                                <img class="rounded" src="@ad.BannerImage"
+                                     style="width: 670px; height: 280px"
+                                     alt="" />
+                            </a>
+                        </div>
+                    }
+                  
+                    
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

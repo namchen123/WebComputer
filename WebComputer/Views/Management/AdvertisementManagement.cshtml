@@ -1,0 +1,67 @@
+﻿@{
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+@model IEnumerable<Advertisement>
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+<div class="create-area">
+    <a asp-action="CreateAdvertisement" class="btn btn-success">Thêm mới quảng cáo</a>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>Ảnh quảng cáo</th>
+        <th>Mô tả</th>
+        <th>Tiêu đề</th>
+        <th>Sản phẩm quảng cáo</th>
+        <th>Thao tác</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.BannerImage</td>
+            <td>@item.Description</td>
+            <td>@item.Title</td>
+            <td>@item.Product.Name</td>
+            <td class="d-flex flex-column g-2">
+                <a asp-action="EditCustomer" asp-route-customerId= class="btn btn-warning mb-2" style="width:150px">Sửa</a>
+                <a asp-action="DeleteCustomer" asp-route-customerId= class="btn btn-danger" style="width:150px">Xóa</a>
+            </td>
+        </tr>
+    }
+</table>
+<style>
+    .create-area {
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+</style>

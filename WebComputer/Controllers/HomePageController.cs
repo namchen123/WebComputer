@@ -22,12 +22,14 @@ namespace WebComputer.Controllers
             var laptop = _storeContext.Products.Where(p=>p.CategoryId==1).Take(5);
             var console = _storeContext.Products.Where(p => p.CategoryId == 17 || p.CategoryId == 16).OrderBy(p => Guid.NewGuid()).Take(5);
             var keyboardmouse = _storeContext.Products.Where(p=> p.CategoryId == 13 || p.CategoryId == 12).OrderBy(p => Guid.NewGuid()).Take(5);
+            var banner = _storeContext.Advertisements.ToList();
+            ViewBag.banner = banner;
 
             ViewBag.laptop = laptop;
             ViewBag.console = console;
             ViewBag.keyboardmouse = keyboardmouse;
 
-            return View(laptop);
+            return View(banner);
         }
     }
 }
