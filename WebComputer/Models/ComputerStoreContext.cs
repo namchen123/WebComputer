@@ -172,9 +172,7 @@ namespace WebComputer.Models
 
                 entity.Property(e => e.Phone).HasMaxLength(50);
 
-                entity.Property(e => e.Status)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                entity.Property(e => e.Status).HasMaxLength(100);
 
                 entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 2)");
 

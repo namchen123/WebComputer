@@ -24,9 +24,9 @@
         <div id="mainContent" class="col-6">
             <div id="carouselExample" class="carousel slide">
                 <div class="carousel-inner rounded">
-                    @foreach(var ad in Model)
+                    @foreach(var ad in ViewBag.banner1)
                     {
-                        <div class="carousel-item @(Model.First() == ad ? "active" : "")">
+                        <div class="carousel-item @(ViewBag.banner1[0] == ad ? "active" : "")">
                             <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@ad.ProductId>
                                 <img class="rounded" src="@ad.BannerImage"
                                      style="width: 670px; height: 280px"
@@ -48,12 +48,28 @@
             </div>
         </div>
         <div class="col-3" style="padding: 0;">
-            <div>
-                <a href="#">
-                    <img src="~/images/quangcao2.png"
-                         style="width: 330px; height: 280px"
-                         alt="" />
-                </a>
+            <div id="carousel2" class="carousel slide">
+                <div class="carousel-inner rounded">
+                    @foreach(var ad in ViewBag.banner2)
+                    {
+                        <div class="carousel-item @(ViewBag.banner2[0] == ad ? "active" : "")">
+                            <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@ad.ProductId>
+                                <img class="rounded" src="@ad.BannerImage"
+                                     style="width: 100%; height: 280px"
+                                     alt="" />
+                            </a>
+                        </div>
+                    }                   
+                    
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carousel2" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carousel2" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
         </div>
     </div>
@@ -80,12 +96,19 @@
                         <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
                         <div class="state mb-2">
                             <div class="d-flex justify-content-between">
-                                <p>Còn hàng</p>
-                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
-                                    <button style="width: 50px; background-color: red">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </button>
-                                </a>
+                                @if (i.StockQuantity > 0)
+                                {
+                                    <p style="color: lime">Còn hàng</p>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                        <button style="width: 50px; background-color: red; border:none">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p style="color: red">Sản phẩm tạm hết hàng</p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -119,12 +142,19 @@
                         <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
                         <div class="state mb-2">
                             <div class="d-flex justify-content-between">
-                                <p>Còn hàng</p>
-                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
-                                    <button style="width: 50px; background-color: red">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </button>
-                                </a>
+                                @if (i.StockQuantity > 0)
+                                {
+                                    <p style="color: lime">Còn hàng</p>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                        <button style="width: 50px; background-color: red; border:none">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p style="color: red">Sản phẩm tạm hết hàng</p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -158,12 +188,19 @@
                         <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
                         <div class="state mb-2">
                             <div class="d-flex justify-content-between">
-                                <p>Còn hàng</p>
-                                <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
-                                    <button style="width: 50px; background-color: red">
-                                        <i class="fa-solid fa-cart-shopping"></i>
-                                    </button>
-                                </a>
+                                @if (i.StockQuantity > 0)
+                                {
+                                    <p style="color: lime">Còn hàng</p>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                        <button style="width: 50px; background-color: red; border:none">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p style="color: red">Sản phẩm tạm hết hàng</p>
+                                }
                             </div>
                         </div>
                     </div>
@@ -175,7 +212,51 @@
 
         </div>
 
-        
+        <div id="productContent" class="mt-5">
+            <div class="d-flex justify-content-between flex-wrap">
+                <h3>Màn hình, thiết bị mạng, phần mềm</h3>
+                <a class="linkProduct" asp-controller="Product" asp-action="ListProduct3" asp-route-categoryId=11 asp-route-categoryId2=18 asp-route-categoryId3=15>
+                    <div class="linkButton">Xem tất cả</div>
+                </a>
+            </div>
+            <div class="productItems" style="position: relative;">
+                @foreach (var i in ViewBag.monitor)
+                {
+                    <div class="item">
+                        <a href="#">
+                            <img src="@i.Image1" width="210px" height="190px" alt="" />
+                        </a>
+                        <div class="detail">
+                            <p>
+                                @i.Name
+                            </p>
+                        </div>
+                        <div class="price"><p>@i.Price.ToString("N0") đ</p></div>
+                        <div class="state mb-2">
+                            <div class="d-flex justify-content-between">
+                                @if (i.StockQuantity > 0)
+                                {
+                                    <p style="color: lime">Còn hàng</p>
+                                    <a asp-controller="Product" asp-action="ProductDetail" asp-route-productId=@i.ProductId style="width: 51px">
+                                        <button style="width: 50px; background-color: red; border:none">
+                                            <i class="fa-solid fa-cart-shopping"></i>
+                                        </button>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <p style="color: red">Sản phẩm tạm hết hàng</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
 
 
         </div>

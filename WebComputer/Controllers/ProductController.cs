@@ -148,6 +148,8 @@ namespace WebComputer.Controllers
             {
                 product = product.OrderByDescending(p=>p.Price).Take(5).ToList();
                 var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
+                var supplier = _storeContext.Suppliers.Where(p => p.Products.Any(p => p.CategoryId == categoryId)).ToList();
+                ViewBag.supplier = supplier;
                 ViewBag.categoryname = categoryname;
                 ViewBag.categoryId = categoryId;
                 ViewBag.orderby = "desc";
@@ -156,6 +158,8 @@ namespace WebComputer.Controllers
             {
                 product = product.OrderBy(p=>p.Price).Take(5).ToList();
                 var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
+                var supplier = _storeContext.Suppliers.Where(p => p.Products.Any(p => p.CategoryId == categoryId)).ToList();
+                ViewBag.supplier = supplier;
                 ViewBag.categoryname = categoryname;
                 ViewBag.categoryId = categoryId;
                 ViewBag.orderby = "asc";
@@ -189,7 +193,7 @@ namespace WebComputer.Controllers
         [HttpGet]
         public IActionResult FindProduct(String name)
         {
-            var product = _storeContext.Products.Where(p=>p.Name.Contains(name) || p.Category.CategoryName.Contains(name)).ToList();
+            var product = _storeContext.Products.Where(p=>p.Name.Contains(name) || p.Category.CategoryName.Contains(name) || (p.Price>=decimal.Parse(name)-300000 && p.Price <= decimal.Parse(name) + 300000)).ToList();
             ViewBag.name = name;
             return View(product);
         }

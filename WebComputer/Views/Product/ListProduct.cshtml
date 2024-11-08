@@ -19,7 +19,7 @@
                     <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
                 </div>
                 <select class="form-select d-inline w-25" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
+                    <option selected>Hãng sản xuất</option>
                     @foreach(var s in ViewBag.supplier)
                     {
                         <option value=@s.SupplierId>@s.SupplierName</option>

@@ -28,8 +28,8 @@
             <td>@item.Title</td>
             <td>@item.Product.Name</td>
             <td class="d-flex flex-column g-2">
-                <a asp-action="EditCustomer" asp-route-customerId= class="btn btn-warning mb-2" style="width:150px">Sửa</a>
-                <a asp-action="DeleteCustomer" asp-route-customerId= class="btn btn-danger" style="width:150px">Xóa</a>
+                <a asp-action="EditAdvertisement" asp-route-advertisementId=@item.Id class="btn btn-warning mb-2" style="width:150px">Sửa</a>
+                <a asp-action="DeleteAdvertisement" asp-route-advertisementId=@item.Id class="btn btn-danger" style="width:150px">Xóa</a>
             </td>
         </tr>
     }

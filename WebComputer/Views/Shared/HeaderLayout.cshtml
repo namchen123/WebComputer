@@ -36,7 +36,7 @@
                         <a class="headerlink btn btn-primary" asp-controller="Account" asp-action="CustomerDetail" asp-route-name="@User.Identity.Name">Xin chào @User.Identity.Name</a>
                         <a class="headerlink btn btn-outline-secondary" asp-controller="Account" asp-action="Logout">Đăng xuất</a>
                     }
-                    else
+                    else if(User.IsInRole("AD"))
                     {
                         <a class="headerlink btn btn-primary" asp-controller="Management" asp-action="ProductManagement">Xin chào Admin</a>
                         <a class="headerlink btn btn-outline-secondary" asp-controller="Account" asp-action="Logout">Đăng xuất</a>

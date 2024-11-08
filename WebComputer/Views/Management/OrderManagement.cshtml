@@ -1,0 +1,47 @@
+﻿@{
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+@model IEnumerable<Customer>
+
+@foreach (var k in Model)
+{
+    <div class="mt-2">
+        <h3>Tên khách hàng: @k.Account.Email</h3>
+        @if (k.Orders.Count()==0)
+        {
+            <p>Chưa có lịch sử đặt hàng</p>
+        }
+            else foreach(var o in k.Orders)
+        {
+            <div class="row rounded mb-3 mt-3" style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15); width:90%; margin:auto">
+                <div class="header-order d-flex gap-3 align-items-center border-bottom">
+                    <p class="fw-bold m-0">@o.OrderDate.Value.Day/@o.OrderDate.Value.Month/@o.OrderDate.Value.Year</p>
+                    <span class="border" style="height: 35px;"></span>
+                    <p class="m-0">Giao hàng tận nơi</p>
+                </div>
+                <div class="d-flex">
+                    <p>Trạng thái đơn: @o.Status</p>
+                </div>
+                @foreach (var p in o.OrderDetails)
+                {
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                        <div class="d-flex align-items-center gap-3">
+                            <img class="border rounded" style="width: 65px; height: 65px;" src="@p.Product.Image1" alt="">
+                            <div>
+                                <p class="text-fs-5 fw-bold">@p.Product.Name</p>
+                            </div>
+                        </div>
+                        <p class="fs-5">@p.Product.Price.ToString("N0") đ</p>
+                    </div>
+                }
+                <div class="d-flex justify-content-end">
+                    <p class="fs-4">Thành tiền: <span style="color: red;">@Convert.ToDecimal(o.TotalAmount).ToString("N0") đ</span></p>
+                </div>
+                <div class="d-flex justify-content-columns">
+                    <h4>Trạng thái đơn: @o.Status</h4>
+                </div>
+            </div>
+        }
+    </div>
+}

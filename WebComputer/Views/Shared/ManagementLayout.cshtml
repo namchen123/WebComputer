@@ -2,12 +2,19 @@
       rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <section>
     <div class="sidebar">
         <h2>Dashboard</h2>
+        <a asp-controller="HomePage" asp-action="Index">Trang chủ</a>
         <a asp-action="ProductManagement">Quản lý sản phẩm</a>
         <a asp-action="CustomerManagement">Quản lý khách hàng</a>
         <a asp-action="AdvertisementManagement">Quản lý quảng cáo</a>
+        <a data-bs-toggle="collapse" href="#collapseExample" aria-controls="collapseExample">Quản lý đơn hàng</a>
+        <div class="collapse" id="collapseExample">
+            <a asp-action="WaitOrder">Đơn hàng chờ xác nhận</a>
+            <a asp-action="OrderManagement">Tất cả đơn hàng</a>
+        </div>
     </div>
     <div class="content">
         @RenderBody()

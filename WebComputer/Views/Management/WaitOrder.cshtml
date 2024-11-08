@@ -1,17 +1,20 @@
 ﻿@{
-    Layout = "~/Views/Shared/ComputerLayout.cshtml";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
 }
 @model IEnumerable<Order>
-
 @foreach (var o in Model)
-{    
+{
     <div class="row rounded mb-3 mt-3" style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15); width:90%; margin:auto">
         <div class="header-order d-flex gap-3 align-items-center border-bottom">
             <p class="fw-bold m-0">@o.OrderDate.Value.Day/@o.OrderDate.Value.Month/@o.OrderDate.Value.Year</p>
             <span class="border" style="height: 35px;"></span>
             <p class="m-0">Giao hàng tận nơi</p>
         </div>
-        @foreach(var p in o.OrderDetails)
+        <div class="d-flex">
+            <p>Tên khách hàng: @o.Customer.Account.Email</p>
+            <p>Trạng thái đơn: @o.Status</p>
+        </div>
+        @foreach (var p in o.OrderDetails)
         {
             <div class="d-flex justify-content-between align-items-center mt-2">
                 <div class="d-flex align-items-center gap-3">
@@ -27,15 +30,8 @@
             <p class="fs-4">Thành tiền: <span style="color: red;">@Convert.ToDecimal(o.TotalAmount).ToString("N0") đ</span></p>
         </div>
         <div class="d-flex">
-            @if(o.Status.Equals("Chờ xác nhận"))
-            {
-                <p>Trạng thái đơn hàng: @o.Status</p>
-                <a asp-action="DeleteOrder" asp-route-id=@o.OrderId class="btn btn-danger">Hủy đơn hàng</a>
-            }
-            else
-            {
-                <p>Trạng thái đơn hàng: @o.Status</p>
-            }
+            <a asp-action="ConfirmOrder" asp-route-id =@o.OrderId class="btn btn-success">Xác nhận đơn</a>
+            <a asp-action="DeleteOrder" asp-route-id=@o.OrderId class="btn btn-danger">Hủy đơn hàng</a>
         </div>
     </div>
 }

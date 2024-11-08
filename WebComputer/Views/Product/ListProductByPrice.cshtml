@@ -42,7 +42,13 @@
                 <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
                 <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
             </div>
-            <a class="btn">Hãng sản xuất</a>
+            <select class="form-select d-inline w-25" aria-label="Default select example">
+                <option selected>Hãng sản xuất</option>
+                @foreach (var s in ViewBag.supplier)
+                {
+                    <option value=@s.SupplierId>@s.SupplierName</option>
+                }
+            </select>
         </div>
     </div>
     <div class="mt-2">

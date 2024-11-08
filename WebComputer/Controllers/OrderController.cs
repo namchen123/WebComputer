@@ -84,7 +84,7 @@ namespace WebComputer.Controllers
                 Adress = orderView.Adress,
                 Phone = orderView.Phone,
                 Email = orderView.Email,
-                Status = "Done",
+                Status = "Chờ xác nhận",
                 OrderDate = DateTime.UtcNow,
                 CustomerId = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name)).CustomerId
             };
@@ -109,9 +109,6 @@ namespace WebComputer.Controllers
                 totalamount += detail.UnitPrice * detail.Quantity;
                 _storecontext.OrderDetails.Add(detail);
 
-                var product = _storecontext.Products.SingleOrDefault(p => p.ProductId == item.ProductId);
-                product.StockQuantity -= item.Quantity;
-                _storecontext.Products.Update(product);
             }
             order.TotalAmount = totalamount;
             _storecontext.Orders.Update(order);
@@ -133,6 +130,15 @@ namespace WebComputer.Controllers
             var customer = _storecontext.Customers.FirstOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
             var order = _storecontext.Orders.Where(p => p.CustomerId == customer.CustomerId).Include(p=>p.OrderDetails).ThenInclude(p=>p.Product);
             return View(order);
+        }
+
+        public IActionResult DeleteOrder(int id)
+        {
+            var order = _storecontext.Orders.Find(id);
+            order.Status = "Đơn hàng bị hủy";
+            _storecontext.Update(order);
+            _storecontext.SaveChanges();
+            return RedirectToAction("OrderDetail");            
         }
     }
 }

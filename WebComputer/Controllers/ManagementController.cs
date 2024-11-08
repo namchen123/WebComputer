@@ -110,7 +110,7 @@ namespace WebComputer.Controllers
             return View(customer);
         }
 
-        public IActionResult EditCusomerSuccess(Customer customer)
+        public IActionResult EditCustomerSuccess(Customer customer)
         {
 
             var existingCustomer = _storeContext.Customers
@@ -173,9 +173,91 @@ namespace WebComputer.Controllers
                 TempData["Message"] = "Product already had ad";
                 return RedirectToAction("CreateAdvertisement");
             }
+            if (advertisement.BannerImage == null)
+            {
+                TempData["Message"] = "Banner image is not null!";
+                return RedirectToAction("CreateAdvertisement");
+            }
             _storeContext.Add(advertisement);
             _storeContext.SaveChanges();
             return RedirectToAction("AdvertisementManagement");
+        }
+
+        public IActionResult EditAdvertisement(int advertisementId)
+        {
+            var advertisement = _storeContext.Advertisements.Find(advertisementId);
+            var product = _storeContext.Products.Select(p => new { p.ProductId, p.Name });
+            ViewBag.product = new SelectList(product, "ProductId", "Name");
+            return View(advertisement);
+        }
+
+        public IActionResult EditAdvertisementSuccess(Advertisement advertisement)
+        {
+            var existingadvertisement = _storeContext.Advertisements.SingleOrDefault(p => p.Id == advertisement.Id);
+            if (existingadvertisement != null)
+            {
+                existingadvertisement.ProductId = advertisement.ProductId;
+                existingadvertisement.BannerImage = advertisement.BannerImage;
+                existingadvertisement.Title = advertisement.Title;
+                existingadvertisement.Description = advertisement.Description;
+
+                _storeContext.Update(existingadvertisement);
+                _storeContext.SaveChanges();
+            }
+            
+            return RedirectToAction("AdvertisementManagement");
+        }
+
+        public IActionResult DeleteAdvertisement(int advertisementId)
+        {
+            var advertisement = _storeContext.Advertisements.Include(p=>p.Product).SingleOrDefault(p=>p.Id==advertisementId);
+            return View(advertisement);
+        }
+
+        public IActionResult DeleteAdvertisementSuccess(int Id)
+        {
+            var existingadvertisement = _storeContext.Advertisements.Find(Id);
+            _storeContext.Remove(existingadvertisement);
+            _storeContext.SaveChanges();
+            return RedirectToAction("AdvertisementManagement");
+        }
+
+        public IActionResult WaitOrder()
+        {
+            var waitorder = _storeContext.Orders.Where(p => p.Status.Equals("Chờ xác nhận")).Include(p => p.OrderDetails).ThenInclude(p=>p.Product).Include(p=>p.Customer).ThenInclude(p=>p.Account).OrderByDescending(p=>p.OrderDate).ToList();
+            return View(waitorder);
+        }
+
+        public IActionResult ConfirmOrder(int id)
+        {
+            var order = _storeContext.Orders.Find(id);
+            order.Status = "Thành công";
+            _storeContext.Update(order);
+            _storeContext.SaveChanges();
+
+            var orderdetail = _storeContext.OrderDetails.Where(p => p.OrderId == order.OrderId).ToList();
+            foreach(var item in orderdetail)
+            {
+                var product = _storeContext.Products.SingleOrDefault(p => p.ProductId == item.ProductId);
+                product.StockQuantity -= item.Quantity;
+                _storeContext.Products.Update(product);
+            }
+            _storeContext.SaveChanges();
+            return RedirectToAction("OrderManagement");
+        }
+        public IActionResult DeleteOrder(int id)
+        {
+            var order = _storeContext.Orders.Find(id);
+            order.Status = "Đơn hàng bị hủy";
+            _storeContext.Update(order);
+            _storeContext.SaveChanges();
+            return RedirectToAction("OrderManagement");
+        }
+
+        public IActionResult OrderManagement()
+        {
+            var order = _storeContext.Customers.Where(p=>p.Account.Role.Equals("KH")).Include(p=>p.Account).Include(p => p.Orders).ThenInclude(p => p.OrderDetails).ThenInclude(p => p.Product).ToList();
+            return View(order);
         }
     }
 }
