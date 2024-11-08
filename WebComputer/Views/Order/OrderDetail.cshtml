@@ -23,7 +23,11 @@
                 <p class="fs-5">@p.Product.Price.ToString("N0") đ</p>
             </div>
         }
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end flex-column">
+            @if(o.Discount!=null)
+            {
+                <p class="fs-5">Giảm giá: <span>@Convert.ToDecimal(o.TotalAmount * (o.Discount.DiscountPercent / 100)).ToString("N0") đ</span></p>
+            }
             <p class="fs-4">Thành tiền: <span style="color: red;">@Convert.ToDecimal(o.TotalAmount).ToString("N0") đ</span></p>
         </div>
         <div class="d-flex">

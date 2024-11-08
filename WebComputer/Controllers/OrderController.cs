@@ -39,6 +39,7 @@ namespace WebComputer.Controllers
                 return RedirectToAction("Index", "HomePage");
             }
             ViewBag.tonggia = 0;
+            ViewBag.giamgia = 0;
             ViewBag.thanhtien = 0;
             var accountid = _storecontext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
             ViewBag.cartitemcount = 0;
@@ -51,11 +52,42 @@ namespace WebComputer.Controllers
             var customer = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
             var cart = _storecontext.Carts.SingleOrDefault(c => c.CustomerId == customer.CustomerId);
             var cartItem = _storecontext.CartItems.Where(p=>p.CartId == cart.CartId).Include(p=>p.Product).ToList();
-
+            var discount = _storecontext.Discounts.SingleOrDefault(c => c.DiscountId == cart.DiscountId);
+            ViewBag.cartItem = cartItem;
             ViewBag.tonggia = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Sum(p => p.Product.Price);
-
-            return View(cartItem);
+            if(discount != null)
+            {
+                ViewBag.giamgia = ViewBag.tonggia * (discount.DiscountPercent / 100);
+                ViewBag.thongtin = discount.Description;
+            }
+            ViewBag.thanhtien =ViewBag.tonggia-ViewBag.giamgia;
+            return View();
         }
+
+        public IActionResult AddDiscount(AddDiscountModel addDiscount)
+        {
+            var customer = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
+            var cart = _storecontext.Carts.SingleOrDefault(c => c.CustomerId == customer.CustomerId);
+            var cartItem = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Include(p => p.Product).ToList();
+            decimal tonggia = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Sum(p => p.Product.Price);
+            var discount = _storecontext.Discounts.SingleOrDefault(p => p.DiscountName.Equals(addDiscount.name));
+
+            if (discount == null)
+            {
+                TempData["Message"] = "Invalid code";
+                return RedirectToAction("Cart");
+            }
+            if (discount==null ||tonggia < discount.Condition)
+            {
+                TempData["Message"] = "The order does not qualify for the discount";
+                return RedirectToAction("Cart");
+            }
+            cart.DiscountId = discount.DiscountId;
+            _storecontext.Update(cart);
+            _storecontext.SaveChanges();
+            return RedirectToAction("Cart");
+        }
+
         public IActionResult DeleteCart(int cartid, int cartitemid)
         {
             var cartitem = _storecontext.CartItems.SingleOrDefault(p => p.CartItemId == cartitemid && p.Cart.CartId ==cartid);
@@ -68,9 +100,18 @@ namespace WebComputer.Controllers
             var customer = _storecontext.Customers.SingleOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
             var cart = _storecontext.Carts.SingleOrDefault(c => c.CustomerId == customer.CustomerId);
             var cartItem = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Include(p => p.Product).ToList();
-
+            var discount = _storecontext.Discounts.SingleOrDefault(p => p.DiscountId == cart.DiscountId);
+            decimal discountamount = 0;
             ViewBag.tonggia = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Sum(p => p.Product.Price);
-
+            ViewBag.giamgia = 0;
+            ViewBag.thanhtien = 0;
+            if (discount != null)
+            {
+                ViewBag.giamgia = ViewBag.tonggia * (discount.DiscountPercent / 100);
+                ViewBag.thongtin = discount.Description;
+            }
+            ViewBag.giamgia = ViewBag.tonggia * (discount.DiscountPercent / 100);
+            ViewBag.thanhtien = ViewBag.tonggia - ViewBag.giamgia;
             ViewBag.Name = customer.FirstName + " " +customer.LastName;
             ViewBag.Adress = customer.Address;
             ViewBag.Phone = customer.Phone;
@@ -95,7 +136,10 @@ namespace WebComputer.Controllers
             var cart = _storecontext.Carts.SingleOrDefault(c => c.CustomerId == customer.CustomerId);
             var cartItem = _storecontext.CartItems.Where(p => p.CartId == cart.CartId).Include(p => p.Product).ToList();
             
-            decimal totalamount = 0;
+            decimal? totalamount = 0;
+            decimal? discountamount = 0;
+            decimal? thanhtien = 0;
+            var discount = _storecontext.Discounts.SingleOrDefault(p => p.DiscountId == cart.DiscountId);
 
             foreach (var item in cartItem)
             {
@@ -110,7 +154,13 @@ namespace WebComputer.Controllers
                 _storecontext.OrderDetails.Add(detail);
 
             }
-            order.TotalAmount = totalamount;
+            if(discount != null)
+            {
+                discountamount = totalamount * (discount.DiscountPercent / 100);
+                order.DiscountId = discount.DiscountId;
+            }
+            thanhtien = totalamount-discountamount;
+            order.TotalAmount = thanhtien;
             _storecontext.Orders.Update(order);
             _storecontext.SaveChanges();
 
@@ -128,7 +178,7 @@ namespace WebComputer.Controllers
                 return RedirectToAction("Index", "HomePage");
             }
             var customer = _storecontext.Customers.FirstOrDefault(p => p.Account.Email.Equals(User.Identity.Name));
-            var order = _storecontext.Orders.Where(p => p.CustomerId == customer.CustomerId).Include(p=>p.OrderDetails).ThenInclude(p=>p.Product);
+            var order = _storecontext.Orders.Where(p => p.CustomerId == customer.CustomerId).Include(p=>p.OrderDetails).ThenInclude(p=>p.Product).Include(p=>p.Discount);
             return View(order);
         }
 

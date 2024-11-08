@@ -167,6 +167,17 @@ namespace WebComputer.Controllers
             return View(product);
         }
 
+        public IActionResult ListProductByPrice2(decimal minprice, decimal maxprice, int categoryId)
+        {
+            var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
+            var product = _storeContext.Products.Where(p=> p.CategoryId == categoryId && p.Price>=minprice && p.Price<=maxprice).ToList();
+            var supplier = _storeContext.Suppliers.Where(p => p.Products.Any(p => p.CategoryId == categoryId)).ToList();
+            ViewBag.supplier = supplier;
+            ViewBag.categoryname = categoryname;
+            ViewBag.categoryId = categoryId;
+            return View(product);
+        }
+
         public IActionResult ListProductBySupplier(int supplierId, int categoryId)
         {
             var product = _storeContext.Products.Where(p=>p.CategoryId==categoryId && p.Suppliers.Any(p=>p.SupplierId==supplierId)).ToList();

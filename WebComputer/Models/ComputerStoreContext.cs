@@ -22,6 +22,7 @@ namespace WebComputer.Models
         public virtual DbSet<CartItem> CartItems { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Discount> Discounts { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
@@ -96,6 +97,11 @@ namespace WebComputer.Models
                     .WithMany(p => p.Carts)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK__Cart__CustomerID__4E88ABD4");
+
+                entity.HasOne(d => d.Discount)
+                    .WithMany(p => p.Carts)
+                    .HasForeignKey(d => d.DiscountId)
+                    .HasConstraintName("FK__Cart__DiscountId__160F4887");
             });
 
             modelBuilder.Entity<CartItem>(entity =>
@@ -154,6 +160,23 @@ namespace WebComputer.Models
                     .HasConstraintName("FK__Customer__Accoun__3B75D760");
             });
 
+            modelBuilder.Entity<Discount>(entity =>
+            {
+                entity.ToTable("Discount");
+
+                entity.Property(e => e.Condition).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Description).HasMaxLength(100);
+
+                entity.Property(e => e.DiscountMoney).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.DiscountName).HasMaxLength(100);
+
+                entity.Property(e => e.DiscountPercent).HasColumnType("decimal(5, 2)");
+
+                entity.Property(e => e.IsActive).HasDefaultValueSql("((1))");
+            });
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("Order");
@@ -180,6 +203,11 @@ namespace WebComputer.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK__Order__CustomerI__5535A963");
+
+                entity.HasOne(d => d.Discount)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.DiscountId)
+                    .HasConstraintName("FK__Order__DiscountI__151B244E");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>

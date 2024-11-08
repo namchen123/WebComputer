@@ -1,7 +1,13 @@
 ﻿@{
     Layout = "~/Views/Shared/ComputerLayout.cshtml";
 }
-@model IEnumerable<CartItem>
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+@model AddDiscountModel
 <div class="" style="max-width: 90%; margin: auto">
     <h4>Giỏ hàng</h4>
     <div class="row">
@@ -13,11 +19,11 @@
                     <div class="flex-grow-1 text-center">Thành tiền</div>
                     <div class="flex-grow-1 text-center">Xóa</div>
                 </div>
-                @if(Model== null)
+                @if (ViewBag.cartItem == null)
                 {
                     <p>Giỏ hàng rỗng</p>
                 }else{
-                    @foreach(var c in Model)
+                    @foreach (var c in ViewBag.cartItem)
                     {
                         <div class="body-cart-item d-flex justify-content-between mt-3 border-bottom">
                             <div class="d-flex flex-grow-1 align-items-center" style="max-width: 260px;">
@@ -36,10 +42,11 @@
         </div>
         <div class="col-4">
             <div class="d-flex flex-column">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Mã giảm giá">
-                    <button class="btn btn-primary" type="button">Áp dụng</button>
-                </div>
+                <form asp-action="AddDiscount" class="input-group">
+                    <input asp-for=name class="form-control" type="text" placeholder="Mã giảm giá">
+                    <span asp-validation-for="name" class="text-danger"></span>
+                    <button class="btn btn-primary" type="submit">Áp dụng</button>
+                </form>
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Tạm tính</p>
@@ -48,14 +55,17 @@
                 </div>
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
-                        <p>Giảm giá</p>
-                        <p>0 đ</p>
+                        <div class="d-flex flex-column">
+                            <p>Giảm giá</p>
+                            <p>@ViewBag.thongtin</p>
+                        </div>
+                        <p>@ViewBag.giamgia.ToString("N0") đ</p>
                     </div>
                 </div>
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Thành tiền</p>
-                        <p>@ViewBag.tonggia.ToString("N0") đ</p>
+                        <p>@ViewBag.thanhtien.ToString("N0") đ</p>
                     </div>
                 </div>
                 <a class="btn btn-primary" asp-action="OrderCheck">Tiến hành đặt hàng</a>

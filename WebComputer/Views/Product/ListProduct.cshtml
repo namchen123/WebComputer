@@ -13,7 +13,7 @@
         <h4>Chọn theo tiêu chí</h4>
         <div>
             <a class="btn"><i class="fa-solid fa-money-bill"></i> Giá</a>
-            <div>
+            <div class="d-flex">
                 <div class="btn-group">
                     <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="desc"><i class="fa-solid fa-arrow-down-wide-short"></i> Giá cao đến thấp</a>
                     <a class="btn btn-outline-primary" asp-action="ListProductByPrice" asp-route-categoryId=@ViewBag.categoryId asp-route-description="asc"><i class="fa-solid fa-arrow-up-wide-short"></i> Giá thấp đến cao</a>
@@ -25,6 +25,21 @@
                         <option value=@s.SupplierId>@s.SupplierName</option>
                     }
                 </select>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width:250px">
+                        Chọn theo khoảng giá
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <div class="d-flex flex-wrap g-2" style="gap:2%;">
+                            <a asp-action="ListProductByPrice2" asp-route-minprice=10000000 asp-route-maxprice=20000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">10-20 triệu</a>
+                            <a asp-action="ListProductByPrice2" asp-route-minprice=20000000 asp-route-maxprice=30000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">20-30 triệu</a>
+                            <a asp-action="ListProductByPrice2" asp-route-minprice=30000000 asp-route-maxprice=40000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">30-40 triệu</a>
+                            <a asp-action="ListProductByPrice2" asp-route-minprice=40000000 asp-route-maxprice=50000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">40-50 triệu</a>
+                            <a asp-action="ListProductByPrice2" asp-route-minprice=50000000 asp-route-maxprice=60000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">50-60 triệu</a>
+                        </div>
+                        
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

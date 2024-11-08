@@ -23,6 +23,21 @@
                     <option value=@s.SupplierId>@s.SupplierName</option>
                 }
             </select>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="width:250px">
+                    Chọn theo khoảng giá
+                </button>
+                <ul class="dropdown-menu w-100">
+                    <div class="d-flex flex-wrap g-2" style="gap:2%;">
+                        <a asp-action="ListProductByPrice2" asp-route-minprice=10000000 asp-route-maxprice=20000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">10-20 triệu</a>
+                        <a asp-action="ListProductByPrice2" asp-route-minprice=20000000 asp-route-maxprice=30000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">20-30 triệu</a>
+                        <a asp-action="ListProductByPrice2" asp-route-minprice=30000000 asp-route-maxprice=40000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">30-40 triệu</a>
+                        <a asp-action="ListProductByPrice2" asp-route-minprice=40000000 asp-route-maxprice=50000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">40-50 triệu</a>
+                        <a asp-action="ListProductByPrice2" asp-route-minprice=50000000 asp-route-maxprice=60000000 asp-route-categoryId=@ViewBag.categoryId class="btn btn-outline-primary">50-60 triệu</a>
+                    </div>
+
+                </ul>
+            </div>
         </div>
     </div>
     <div class="mt-2">
@@ -62,23 +77,4 @@
 
         </div>
     </div>
-    <div id="AddButton" class="d-flex justify-content-center mt-3">
-        <button class="btn btn-primary">Xem thêm sản phẩm</button>
-    </div>
-    <script>
-        let pagenumber = 1;
-        const categoryId = @ViewBag.categoryId
-        const orderby = '@ViewBag.orderby'
-            $('#AddButton').click(function (e) {
-                pagenumber++;
-                $.ajax({
-                    url: "GetMoreProduct",
-                    data: { pagenumber: pagenumber, categoryId: categoryId ,orderby: orderby},
-                    success: function (respone) {
-                        $("div.productItems").append(respone);
-                    }
-                });
-            });
-    </script>
 </div>
-

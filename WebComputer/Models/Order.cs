@@ -18,8 +18,10 @@ namespace WebComputer.Models
         public string? Adress { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
+        public int? DiscountId { get; set; }
 
         public virtual Customer? Customer { get; set; }
+        public virtual Discount? Discount { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
