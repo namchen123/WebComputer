@@ -19,6 +19,9 @@ namespace WebComputer.Models
         public string? Phone { get; set; }
         public string? Email { get; set; }
         public int? DiscountId { get; set; }
+        public decimal? Total { get; set; }
+        public decimal? DiscountValue { get; set; }
+        public string? Description { get; set; }
 
         public virtual Customer? Customer { get; set; }
         public virtual Discount? Discount { get; set; }

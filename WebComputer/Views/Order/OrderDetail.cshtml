@@ -2,7 +2,12 @@
     Layout = "~/Views/Shared/ComputerLayout.cshtml";
 }
 @model IEnumerable<Order>
-
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@Html.Raw(TempData["Message"])');
+    </script>
+}
 @foreach (var o in Model)
 {    
     <div class="row rounded mb-3 mt-3" style="box-shadow: 0 1px 2px 0 rgba(60, 64, 67, .1), 0 2px 6px 2px rgba(60, 64, 67, .15); width:90%; margin:auto">
@@ -19,14 +24,16 @@
                     <div>
                         <p class="text-fs-5 fw-bold">@p.Product.Name</p>
                     </div>
+                    <p>Số lượng: @p.Quantity</p>
                 </div>
                 <p class="fs-5">@p.Product.Price.ToString("N0") đ</p>
             </div>
         }
         <div class="d-flex justify-content-end flex-column">
+            <p class="fs-5">Tổng giá: @Convert.ToDecimal(o.Total).ToString("N0")</p>
             @if(o.Discount!=null)
             {
-                <p class="fs-5">Giảm giá: <span>@Convert.ToDecimal(o.TotalAmount * (o.Discount.DiscountPercent / 100)).ToString("N0") đ</span></p>
+                <p class="fs-5">Giảm giá: <span>@Convert.ToDecimal(o.Total * (o.Discount.DiscountPercent / 100)).ToString("N0") đ</span></p>
             }
             <p class="fs-4">Thành tiền: <span style="color: red;">@Convert.ToDecimal(o.TotalAmount).ToString("N0") đ</span></p>
         </div>
@@ -34,11 +41,41 @@
             @if(o.Status.Equals("Chờ xác nhận"))
             {
                 <p>Trạng thái đơn hàng: @o.Status</p>
-                <a asp-action="DeleteOrder" asp-route-id=@o.OrderId class="btn btn-danger">Hủy đơn hàng</a>
+                <button data-bs-toggle="modal" data-bs-target="#modalHuyDon" class="btn btn-danger">Hủy đơn hàng</button>
+                <div class="modal fade" id="modalHuyDon" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <form class="form-control" asp-action="DeleteOrder" method="post">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Nhập lý do hủy</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input name="Description" class="form-control" placeholder="Lý do hủy" type="text" />
+                                    <input type="hidden" value=@o.OrderId name="OrderId" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             }
             else
             {
-                <p>Trạng thái đơn hàng: @o.Status</p>
+                if(o.Status.Equals("Đơn hàng bị hủy"))
+                {
+                    <div class="d-flex flex-column">
+                        <p>Trạng thái đơn hàng: @o.Status</p>
+                        <p>Lý do hủy: @o.Description</p>
+                    </div>
+                }
+                else
+                {
+                    <p>Trạng thái đơn hàng: @o.Status</p> 
+                }
             }
         </div>
     </div>

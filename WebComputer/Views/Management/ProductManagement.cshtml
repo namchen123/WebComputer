@@ -11,7 +11,63 @@
 }
 <div class="create-area">
     <a asp-action="CreateProduct" class="btn btn-success">Thêm mới sản phẩm</a>
+    <input name="Name" type="text" placeholder="Nhập sản phẩm cần tìm" />
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-end">
+            @foreach(var page in ViewBag.pagenumber)
+            {
+                <li class="page-item"><a class="page-link" href="#">@(page+1)</a></li>
+            }
+        </ul>
+    </nav>
 </div>
+<script>
+    $('li.page-item').click(function (e) {
+        console.log("hello")
+        var value = parseInt($(this).text());
+        $.ajax({
+            url: "ProductPagination",
+            data: { page: value },
+            success: function (respone) {
+                $("table.table.table-striped").html(respone);
+            }
+        });
+    });
+
+    $('input').on('input', function (e) {
+        var value = $(this).val().trim(); // Lấy giá trị hiện tại và loại bỏ khoảng trắng đầu/cuối
+        console.log(value); // Kiểm tra giá trị nhập
+
+        if (value === "") {
+            // Nếu input rỗng, hiển thị dữ liệu mặc định và hiển thị lại danh sách ul
+            $('nav').show(); // Hiển thị lại ul nếu trước đó bị ẩn
+            $.ajax({
+                url: "ProductPagination",
+                data: { page: 1 },// API trả về danh sách mặc định
+                success: function (response) {
+                    $("table.table.table-striped").html(response);
+                },
+                error: function () {
+                    console.error("Có lỗi xảy ra khi gọi AJAX cho dữ liệu mặc định.");
+                }
+            });
+        } else {
+            // Nếu input không rỗng, ẩn ul và thực hiện tìm kiếm
+            $('nav').hide(); // Ẩn danh sách ul
+            $.ajax({
+                url: "FindProduct", // Đường dẫn đến API tìm kiếm
+                data: { name: value }, // Gửi giá trị tìm kiếm
+                success: function (response) {
+                    $("table.table.table-striped").html(response);
+                },
+                error: function () {
+                    console.error("Có lỗi xảy ra khi gọi AJAX cho tìm kiếm.");
+                }
+            });
+        }
+    });
+</script>
+
 <table class="table table-striped">
     <tr>
         <th>Tên sản phẩm</th>
@@ -70,3 +126,4 @@
         height: 50px;
     }
 </style>
+

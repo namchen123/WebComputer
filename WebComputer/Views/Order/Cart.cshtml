@@ -13,26 +13,39 @@
     <div class="row">
         <div class="col-8">
             <div class="container">
-                <div class="header cart-item d-flex justify-content-between">
-                    <div class="flex-grow-1">Sản phẩm</div>
-                    <div class="flex-grow-1 text-center">Đơn giá</div>
-                    <div class="flex-grow-1 text-center">Thành tiền</div>
-                    <div class="flex-grow-1 text-center">Xóa</div>
+                <div class="header cart-item d-flex justify-content-between border-bottom pb-2">
+                    <div class="col-4 text-center">Sản phẩm</div>
+                    <div class="col-2 text-center">Đơn giá</div>
+                    <div class="col-2 text-center">Số lượng</div>
+                    <div class="col-2 text-center">Thành tiền</div>
+                    <div class="col-2 text-center">Xóa</div>
                 </div>
+
                 @if (ViewBag.cartItem == null)
                 {
                     <p>Giỏ hàng rỗng</p>
-                }else{
+                }
+                else
+                {
                     @foreach (var c in ViewBag.cartItem)
                     {
                         <div class="body-cart-item d-flex justify-content-between mt-3 border-bottom">
-                            <div class="d-flex flex-grow-1 align-items-center" style="max-width: 260px;">
-                                <img src="@c.Product.Image1" style="width: 100px;" alt="">
+                            <div class="col-4 d-flex align-items-center">
+                                <img src="@c.Product.Image1" class="img-fluid" style="width: 80px;" alt="">
                                 <span class="ml-2">@c.Product.Name</span>
                             </div>
-                            <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
-                            <div class="flex-grow-1 text-center align-self-center">@c.Product.Price.ToString("N0") đ</div>
-                            <a asp-action="DeleteCart" asp-route-cartid=@c.CartId asp-route-cartitemid=@c.CartItemId  class="flex-grow-1 text-center align-self-center"><i class="fa-regular fa-trash-can"></i></a>
+                            <div class="col-2 text-center">@c.Product.Price.ToString("N0") đ</div>
+                            <div class="col-2 text-center d-flex justify-content-center align-items-center">
+                                <button class="btn-decrease btn btn-outline-secondary btn-sm" data-id="@c.ProductId">-</button>
+                                <input type="number" id="quantity-@c.ProductId" value="@c.Quantity" readonly class="text-center" style="width: 40px;">
+                                <button class="btn-increase btn btn-outline-secondary btn-sm" data-id="@c.ProductId">+</button>
+                            </div>
+                            <div id="total-price-@c.ProductId" class="TotalPrice col-2 text-center">@((c.Product.Price * c.Quantity).ToString("N0")) đ</div>
+                            <div class="col-2 text-center">
+                                <a asp-action="DeleteCart" asp-route-cartid="@c.CartId" asp-route-cartitemid="@c.CartItemId" class="text-decoration-none">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </a>
+                            </div>
                         </div>
                     }
                 }
@@ -50,22 +63,22 @@
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Tạm tính</p>
-                        <p>@ViewBag.tonggia.ToString("N0") đ</p>
+                        <p class="tonggia">@ViewBag.tonggia.ToString("N0") đ</p>
                     </div>
                 </div>
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <div class="d-flex flex-column">
                             <p>Giảm giá</p>
-                            <p>@ViewBag.thongtin</p>
+                            <p class="description">@ViewBag.thongtin</p>
                         </div>
-                        <p>@ViewBag.giamgia.ToString("N0") đ</p>
+                        <p class="discount">@ViewBag.giamgia.ToString("N0") đ</p>
                     </div>
                 </div>
                 <div class="mt-2 border-bottom">
                     <div class="d-flex justify-content-between" style="width: 95%; margin: auto;">
                         <p>Thành tiền</p>
-                        <p>@ViewBag.thanhtien.ToString("N0") đ</p>
+                        <p class="thanhtien">@ViewBag.thanhtien.ToString("N0") đ</p>
                     </div>
                 </div>
                 <a class="btn btn-primary" asp-action="OrderCheck">Tiến hành đặt hàng</a>
@@ -73,3 +86,73 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(function () {
+        // Sự kiện click nút dấu cộng
+        $('.btn-increase').click(function () {
+            let productId = $(this).data('id');
+            let quantityInput = $(`#quantity-${productId}`);
+            let newQuantity = parseInt(quantityInput.val()) + 1;
+
+            updateCart(productId, newQuantity, quantityInput);
+        });
+
+        // Sự kiện click nút dấu trừ
+        $('.btn-decrease').click(function () {
+            let productId = $(this).data('id');
+            let quantityInput = $(`#quantity-${productId}`);
+            let newQuantity = Math.max(1, parseInt(quantityInput.val()) - 1);
+
+            updateCart(productId, newQuantity, quantityInput);
+        });
+
+        // Hàm gọi API cập nhật số lượng
+        function updateCart(productId, newQuantity, quantityInput) {
+            $.ajax({
+                url: '/api/ProductApi/UpdateCartItemQuantity',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    productId: productId,
+                    quantity: newQuantity,
+                    cartid: @Html.Raw(ViewBag.cartId) // Chèn giá trị cartId vào JavaScript
+                    }),
+                success: function (response) {
+                    if (response.productId) {  // Kiểm tra nếu response trả về thông tin sản phẩm
+                        // Cập nhật lại số lượng trong ô input
+                        console.log(response)
+                        quantityInput.val(response.quantity);
+                        // Cập nhật lại tổng tiền cho sản phẩm
+                        $(`#total-price-${productId}`).text(response.totalPrice + " đ");
+                        $('.discount').text(response.discountmoney + " đ");
+                        $('.thanhtien').text(response.thanhtien + " đ");
+                        $('.description').text(response.description);
+                        updateTotalPrice()
+                    } else {
+                        alert('Cập nhật thất bại.');
+                    }
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra.');
+                }
+            });
+        }
+        function updateTotalPrice() {
+            let totalPrice = 0;
+
+            // Duyệt qua tất cả các thẻ có id bắt đầu với 'total-price-'
+            $('[id^="total-price-"]').each(function () {
+                // Lấy giá trị của mỗi thẻ và chuyển thành số
+                let priceText = $(this).text().replace(/,/g, "");
+                let price = priceText.replace(" đ", "");
+                console.log(price);
+                totalPrice += parseFloat(price);
+            });
+
+            // Cập nhật tổng giá vào phần tử TotalPrice
+            $('.tonggia').text(totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " đ");
+        }
+    });
+</script>

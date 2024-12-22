@@ -9,7 +9,12 @@ using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddMvcOptions(options =>
+{
+    options.RespectBrowserAcceptHeader = true;
+})
+    .AddViewLocalization()
+    .AddDataAnnotationsLocalization();
 builder.Services.AddDbContext<ComputerStoreContext>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

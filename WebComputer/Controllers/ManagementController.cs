@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Differencing;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using WebComputer.Models;
 
 namespace WebComputer.Controllers
@@ -16,8 +17,17 @@ namespace WebComputer.Controllers
 
         public IActionResult ProductManagement()
         {
+            var totalproduct = _storeContext.Products.Count();
+            int productperpage = 15;
+            int pagenumber = (int)Math.Ceiling((double)totalproduct / productperpage);
+            ViewBag.pagenumber = Enumerable.Range(0, pagenumber).ToList();
             var product = _storeContext.Products.Include(p=>p.Suppliers).ToList();
             return View(product);
+        }
+        public IActionResult ProductPagination(int page)
+        {
+            var product = _storeContext.Products.Include(p=>p.Suppliers).Skip((page-1)*15).Take(15).ToList();
+            return PartialView("ProductPagination",product);
         }
         public IActionResult CustomerManagement()
         {
@@ -35,6 +45,18 @@ namespace WebComputer.Controllers
         [HttpPost]
         public IActionResult CreateProduct(NewProduct newProduct)
         {
+            var category = _storeContext.Categories.Select(p => new { p.CategoryId, p.CategoryName }).ToList();
+            ViewBag.category = new SelectList(category, "CategoryId", "CategoryName");
+            var esupplier = _storeContext.Suppliers.Select(p => new { p.SupplierId, p.SupplierName }).ToList();
+            ViewBag.supplier = new SelectList(esupplier, "SupplierId", "SupplierName");
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            if (newProduct.StockQuantity < 0)
+            {
+                return View();
+            }
             Product product = new Product
             {
                 Name = newProduct.Name,
@@ -80,6 +102,52 @@ namespace WebComputer.Controllers
             ViewBag.category = new SelectList(category, "CategoryId", "CategoryName");
             var product = _storeContext.Products.Find(productId);
             return View(product);
+        }
+
+        public IActionResult CreateCustomer()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CreateCustomer(Customer customer)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+            var existaccount = _storeContext.Accounts.SingleOrDefault(p => p.Email.Equals(customer.Account.Email));
+            if (existaccount != null)
+            {
+                TempData["Message"] = "Account name already exist";
+                return View();
+            }
+            var account = new Account
+            {
+                Email = customer.Account.Email,
+                PasswordHash = customer.Account.PasswordHash,
+                Role = customer.Account.Role,
+            };
+            _storeContext.Accounts.Add(account);
+            _storeContext.SaveChanges();
+
+            var newcustomer = new Customer
+            {
+                AccountId = account.AccountId,
+                FirstName = customer.FirstName,
+                LastName = customer.LastName,
+                Phone = customer.Phone,
+                Address = customer.Address,
+            };
+            _storeContext.Customers.Add(newcustomer);
+            _storeContext.SaveChanges();
+
+            Cart cart = new Cart { CustomerId = newcustomer.CustomerId };
+
+            _storeContext.Carts.Add(cart);
+            _storeContext.SaveChanges();
+
+            TempData["Message"] = "Add user success";
+            return RedirectToAction("CustomerManagement");
         }
         public IActionResult EditProductSuccess(Product product)
         {
@@ -231,7 +299,7 @@ namespace WebComputer.Controllers
         public IActionResult ConfirmOrder(int id)
         {
             var order = _storeContext.Orders.Find(id);
-            order.Status = "Thành công";
+            order.Status = "Đã xác nhận";
             _storeContext.Update(order);
             _storeContext.SaveChanges();
 
@@ -245,10 +313,16 @@ namespace WebComputer.Controllers
             _storeContext.SaveChanges();
             return RedirectToAction("OrderManagement");
         }
-        public IActionResult DeleteOrder(int id)
+        public IActionResult DeleteOrder([FromForm, Required(ErrorMessage = "Cần nhập lý do hủy")] string Description, [FromForm] int OrderId)
         {
-            var order = _storeContext.Orders.Find(id);
+            if (!ModelState.IsValid)
+            {
+                TempData["Message"] = "Cần nhập lý do hủy";
+                return RedirectToAction("WaitOrder");
+            }
+            var order = _storeContext.Orders.Find(OrderId);
             order.Status = "Đơn hàng bị hủy";
+            order.Description = Description;
             _storeContext.Update(order);
             _storeContext.SaveChanges();
             return RedirectToAction("OrderManagement");
@@ -258,6 +332,40 @@ namespace WebComputer.Controllers
         {
             var order = _storeContext.Customers.Where(p=>p.Account.Role.Equals("KH")).Include(p=>p.Account).Include(p => p.Orders).ThenInclude(p => p.OrderDetails).ThenInclude(p => p.Product).ToList();
             return View(order);
+        }
+        public IActionResult DiscountManagement()
+        {
+            var discount = _storeContext.Discounts.ToList();
+            return View(discount);
+        }
+        public IActionResult CreateDiscount()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CreateDiscount(Discount discount)
+        {
+            var Discount = _storeContext.Discounts.SingleOrDefault(p => p.DiscountName.Equals(discount.DiscountName));
+            if(Discount != null)
+            {
+                TempData["Message"] = "Discount has already had name";
+                return View();
+            }
+            _storeContext.Add(discount);
+            _storeContext.SaveChanges();
+            TempData["Message"] = "Add discount success";
+            return RedirectToAction("DiscountManagement");
+        }
+
+        public IActionResult Revenue()
+        {
+            return View();
+        }
+        public IActionResult FindProduct(string name)
+        {
+            var product = _storeContext.Products.Include(p => p.Suppliers).Where(p => p.Name.Contains(name)).ToList();
+            return PartialView("FindProduct",product);
         }
     }
 }

@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewData["Title"] = "Revenue";
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+
+<div>
+    <label for="startDate">Từ ngày:</label>
+    <input type="date" id="startDate">
+    <label for="endDate">Đến ngày:</label>
+    <input type="date" id="endDate">
+</div>
+
+
+<canvas id="lineRevenueChart"></canvas>
+
+
+<script>
+    $(document).ready(function () {
+        let chartInstance; // Lưu trữ instance của biểu đồ để cập nhật lại
+
+        // Hàm vẽ biểu đồ
+        function drawLineChart(labels, revenues) {
+            const ctx = document.getElementById('lineRevenueChart').getContext('2d');
+
+            // Nếu đã tồn tại biểu đồ, cập nhật lại dữ liệu
+            if (chartInstance) {
+                chartInstance.data.labels = labels;
+                chartInstance.data.datasets[0].data = revenues;
+                chartInstance.update();
+            } else {
+                // Tạo biểu đồ mới
+                chartInstance = new Chart(ctx, {
+                    type: 'line', // Biểu đồ đường
+                    data: {
+                        labels: labels, // Nhãn tháng/năm
+                        datasets: [{
+                            label: 'Doanh thu (VND)', // Tiêu đề biểu đồ
+                            data: revenues, // Dữ liệu doanh thu
+                            borderColor: 'rgba(54, 162, 235, 1)', // Màu đường biểu đồ
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)', // Màu nền
+                            fill: true, // Tô màu dưới đường
+                            tension: 0.1, // Độ cong của đường
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                            },
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true, // Bắt đầu trục Y từ 0
+                                title: {
+                                    display: true,
+                                    text: 'Doanh thu (VND)' // Tên trục Y
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Tháng/Năm' // Tên trục X
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Hàm gửi AJAX để lấy dữ liệu doanh thu
+        function fetchRevenueData(startDate, endDate) {
+            if (!startDate || !endDate) {
+                $('#lineRevenueChartContainer').html("<p>Vui lòng chọn cả hai ngày.</p>");
+                return;
+            }
+
+            if (new Date(startDate) > new Date(endDate)) {
+                $('#lineRevenueChartContainer').html("<p>Ngày bắt đầu phải nhỏ hơn hoặc bằng ngày kết thúc.</p>");
+                return;
+            }
+
+            $.ajax({
+                url: '/api/ProductApi/RevenueByDateRange', // Đường dẫn tới API
+                method: 'GET',
+                data: { startDate, endDate }, // Gửi tham số ngày bắt đầu và kết thúc
+                success: function (data) {
+                    if (!data || data.length === 0) {
+                        $('#lineRevenueChartContainer').html("<p>Không có dữ liệu để hiển thị biểu đồ.</p>");
+                        return;
+                    }
+
+                    // Chuẩn bị dữ liệu
+                    const labels = data.map(item => `${item.month}/${item.year}`);
+                    const revenues = data.map(item => item.revenue);
+
+                    // Vẽ biểu đồ
+                    drawLineChart(labels, revenues);
+                },
+                error: function (xhr, status, error) {
+                    $('#lineRevenueChartContainer').html(`<p style="color: red;">Lỗi khi tải dữ liệu: ${error}</p>`);
+                }
+            });
+        }
+
+        // Đặt khoảng thời gian mặc định và hiển thị biểu đồ ngay khi tải trang
+        const today = new Date().toISOString().split('T')[0];
+        const firstDayOfMonth = new Date(today.slice(0, 8) + "01").toISOString().split('T')[0];
+        $('#startDate').val(firstDayOfMonth);
+        $('#endDate').val(today);
+        fetchRevenueData(firstDayOfMonth, today); // Gọi hàm để hiển thị biểu đồ mặc định
+
+        // Bắt sự kiện thay đổi giá trị ngày tháng
+        $('#startDate, #endDate').change(function () {
+            const startDate = $('#startDate').val();
+            const endDate = $('#endDate').val();
+            fetchRevenueData(startDate, endDate); // Gọi hàm lấy dữ liệu
+        });
+    });
+</script>

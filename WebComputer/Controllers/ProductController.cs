@@ -15,6 +15,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ProductDetail(int productId)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.SingleOrDefault(x => x.ProductId == productId);
             var relativeproduct = _storeContext.Products.Where(p => p.CategoryId == product.CategoryId).ToList();
             var specification = _storeContext.ProductSpecifications.Where(p=>p.ProductId == productId).Include(p=>p.Specification);
@@ -26,6 +32,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProduct(int categoryId)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product =_storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p=>p.CategoryName).FirstOrDefault();
             var supplier = _storeContext.Suppliers.Where(p=>p.Products.Any(p=>p.CategoryId==categoryId)).ToList();
@@ -37,6 +49,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProduct2(int categoryId, int categoryId2)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
             var product2 = _storeContext.Products.Where(p => p.CategoryId == categoryId2).Take(5);
             ViewBag.product = product;
@@ -55,6 +73,12 @@ namespace WebComputer.Controllers
         }
         public IActionResult ListProduct3(int categoryId, int categoryId2, int categoryId3)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).Take(5);
             var product2 = _storeContext.Products.Where(p => p.CategoryId == categoryId2).Take(5);
             var product3 = _storeContext.Products.Where(p => p.CategoryId == categoryId3).Take(5);
@@ -81,6 +105,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProduct9()
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p => p.CategoryId == 2).Take(5);
             var product2 = _storeContext.Products.Where(p => p.CategoryId == 3).Take(5);
             var product3 = _storeContext.Products.Where(p => p.CategoryId == 4).Take(5);
@@ -143,6 +173,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProductByPrice(int categoryId, String description)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
             if (description.Equals("desc"))
             {
@@ -169,6 +205,12 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProductByPrice2(decimal minprice, decimal maxprice, int categoryId)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == categoryId).Select(p => p.CategoryName).FirstOrDefault();
             var product = _storeContext.Products.Where(p=> p.CategoryId == categoryId && p.Price>=minprice && p.Price<=maxprice).ToList();
             var supplier = _storeContext.Suppliers.Where(p => p.Products.Any(p => p.CategoryId == categoryId)).ToList();
@@ -180,12 +222,24 @@ namespace WebComputer.Controllers
 
         public IActionResult ListProductBySupplier(int supplierId, int categoryId)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p=>p.CategoryId==categoryId && p.Suppliers.Any(p=>p.SupplierId==supplierId)).ToList();
             return PartialView("ListProductBySupplier",product);
         }
 
         public IActionResult GetMoreProduct(int pagenumber, int categoryId, string orderby)
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var product = _storeContext.Products.Where(p => p.CategoryId == categoryId).ToList();
             if (orderby.Equals("desc"))
             {
@@ -204,13 +258,27 @@ namespace WebComputer.Controllers
         [HttpGet]
         public IActionResult FindProduct(String name)
         {
-            var product = _storeContext.Products.Where(p=>p.Name.Contains(name) || p.Category.CategoryName.Contains(name) || (p.Price>=decimal.Parse(name)-300000 && p.Price <= decimal.Parse(name) + 300000)).ToList();
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
+            decimal price = 0;
+            bool isNumeric = decimal.TryParse(name, out price);
+            var product = _storeContext.Products.Where(p=>p.Name.Contains(name) || p.Category.CategoryName.Contains(name) || (isNumeric && p.Price >= price - 300000 && p.Price <= price + 300000)).ToList();
             ViewBag.name = name;
             return View(product);
         }
 
         public IActionResult BuildPC()
         {
+            ViewBag.cartitemcount = 0;
+            if (User.Identity.IsAuthenticated)
+            {
+                var accountid = _storeContext.Accounts.SingleOrDefault(p => p.Email == User.Identity.Name).AccountId;
+                ViewBag.cartitemcount = _storeContext.Customers.Where(x => x.AccountId == accountid).Include(p => p.Carts).ThenInclude(a => a.CartItems).SelectMany(c => c.Carts).SelectMany(d => d.CartItems).Count();
+            }
             var categoryname = _storeContext.Categories.Where(p => p.CategoryId == 2).Select(p => p.CategoryName).FirstOrDefault();
             ViewBag.categoryname = categoryname;
             var categoryname2 = _storeContext.Categories.Where(p => p.CategoryId == 3).Select(p => p.CategoryName).FirstOrDefault();

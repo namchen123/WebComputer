@@ -1,0 +1,66 @@
+﻿@{
+    Layout = "~/Views/Shared/ManagementLayout.cshtml";
+}
+@model IEnumerable<Discount>
+
+
+@if (TempData["Message"] != null)
+{
+    <script>
+        alert('@TempData["Message"]');
+    </script>
+}
+<div class="create-area">
+    <a asp-action="CreateDiscount" class="btn btn-success">Thêm mới mã giảm giá</a>
+</div>
+<table class="table table-striped">
+    <tr>
+        <th>Tên mã</th>
+        <th>Mô tả</th>
+        <th>Điều kiện</th>
+        <th>Phần trăm giảm</th>
+        <th>Số tiền giảm</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DiscountName</td>
+            <td>@item.Description</td>
+            <td>@item.Condition</td>
+            <td>@item.DiscountPercent</td>
+            <td>@item.DiscountMoney</td>
+        </tr>
+    }
+</table>
+<style>
+    .create-area {
+        color: black;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    img {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
